@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
+	<title>Crear cuenta</title>
+</head>
+<body>
+    <main class="site-main">
+        <section class="section-main">
+			<form method="post" class="form" id="form">
+				{% csrf_token %}
+				<script>
+				const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+				</script>
+				<div class="form__container-div">
+					<div class="form__div form__username">
+						<input class="form__input" name="username" id="username" type="text" placeholder=" " value="{{username}}" required>
+						<label class="form__label" for="username" id="username-label">Nombre de usuario</label>
+						<div class="span-container">
+							<span class="form__span-warning" id="error-username">Usa de 5 a 15 caracteres (al menos una letra). Se permiten puntos y/o guiones no consecutivos excepto al inicio y al final.</span>
+							<span class="form__span-warning" id="error-username-register">{{error}}</span>
+						</div>
+					</div>
+					<div class="form__div form__password1">
+						<input class="form__input" name="password1" id="password1" type="password" placeholder=" " required>
+						<label class="form__label" for="password1">Contraseña</label>
+						<div class="span-container">
+							<span class="form__span-warning" id="error-password1">La contraseña (8 caracteres) debe tener al menos una minúscula, una mayúscula y un caracter especial.</span>
+						</div>
+					</div>
+					<div class="form__div form__password2">
+						<input class="form__input" name="password2" id="password2" type="password" placeholder=" " required>
+						<label class="form__label" for="password2">Repita su contraseña</label>
+						<div class="span-container">
+							<span class="form__span-warning" id="error-password2">La contraseña (8 caracteres) debe tener al menos una minúscula, una mayúscula y un caracter especial.</span>
+							<span class="form__span-warning" id="error-password3">Las contraseñas no coinciden.</span>
+						</div>
+					</div>
+				</div>
+				<p class="form__p">¿Ya tienes una cuenta? <a href="{% url 'signin' %}" class="form__a">Iniciar sesión</a></p>
+				<div class="form__div form__container-button">
+					<button class="button">Crear cuenta</button>
+					<span class="form__span-warning" id="error-submit">Rellene los campos correctamente.</span>
+				</div>
+			</form>
+		</section>
+    </main>
+	<script src="{% static 'js/register_mistakes.js' %}"></script>
+</body>
+</html>
