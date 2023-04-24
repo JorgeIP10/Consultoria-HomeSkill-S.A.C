@@ -5,11 +5,22 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=PT+Serif:ital@0;1&family=Roboto+Condensed:wght@300;400&display=swap" rel="stylesheet">
 	<title>Iniciar sesión</title>
 </head>
 <body>
     <main class="site-main">
         <section class="section-main">
+			<div class="container-img">
+				<div class="container-img__div">
+					<a href="{% url 'shop' %}">
+						<img src="{% static 'images/logo.png' %}" alt="GoShop"/>
+					</a>
+				</div>
+        	</div>
+			<h1 class="login-title">Iniciar sesión</h1>
 			<form method="post" class="form" id="form">
 				{% csrf_token %}
 				<script>
@@ -17,29 +28,31 @@
 				</script>
 				<div class="form__container-div">
 					<div class="form__div form__username">
-						<input class="form__input" name="username" id="username" type="text" placeholder=" " required>
-						<label class="form__label" for="username">Nombre de usuario</label>
-						<div class="span-container">
-							<span class="form__span-warning" id="error-username">Usa de 5 a 15 caracteres (al menos una letra). Se permiten puntos y/o guiones no consecutivos excepto al inicio y al final.</span>
+						<div class="form__div-input username-container">
+							<img class="icon" src="{% static 'images/username.png' %}">
+							<input class="form__input form__username" name="username" id="username" type="text" placeholder="Nombre de usuario" required>
 						</div>
 					</div>
 					<div class="form__div form__password">
-						<input class="form__input" name="password" id="password" type="password" placeholder=" " required>
-						<label class="form__label" for="password">Contraseña</label>
+						<div class="form__div-input password-container">
+							<img class="icon" src="{% static 'images/password.png' %}">
+							<input class="form__input form__password" name="password" id="password" type="password" placeholder="Contraseña" required>
+							<img id="eye-icon" class="imagen-ojo" src="{% static 'images/ojo.png' %}">
+						</div>
 						<div class="span-container">
-							<span class="form__span-warning" id="error-password">La contraseña (8 caracteres) debe tener al menos una minúscula, una mayúscula y un caracter especial.</span>
-							<span class="form__span-warning" id="error-login">{{error}}</span>
+							<span class="form__span-warning" id="error-login"><b>{{error}}</b></span>
 						</div>
 					</div>
 				</div>
-				<p class="form__p">¿Eres nuevo? <a href="{% url 'signup' %}" class="form__a">Crea una cuenta</a></p>
+				<p class="form__p">
+					<b>¿Eres nuevo? <a href="{% url 'signup' %}" class="form__a"><i>Crea una cuenta</i></a></b></p>
 				<div class="form__div form__container-button">
 					<button class="button">Iniciar sesión</button>
-					<span class="form__span-warning" id="error-submit">Rellene los campos correctamente.</span>
+					<span class="form__span-warning" id="error-submit"><b>Rellene los campos correctamente.</b></span>
 				</div>
 			</form>
 		</section>
     </main>
-	<script src="{% static 'js/login_mistakes.js' %}"></script>
+	<script src="{% static 'js/login_validation.js' %}"></script>
 </body>
 </html>
