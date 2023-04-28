@@ -1,1 +1,88 @@
-GoShop
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" type="text/css" href="{% static 'css/shop.css' %}">{% endblock %}
+{% block title %}GoShop{% endblock %}
+
+{% block content %}
+<section class="site-main__section">
+    <div class="breadcumb">
+        <div class="breadcumb-div"><a href="{% url 'shop' %}"><b>GoShop</b></a></div>
+    </div>
+    <div class="site-main__div">
+        <div class="slider-container">
+            <h2 class="title">Cocina</h1>
+            <div class="slider-frame">
+                <ul>
+                    {% for product in products.kitchen %}
+                    <li>
+                        {% if product.on_sale %}
+                        <span class="text-on_sale"><b>En oferta</b></span>
+                        {% endif %}
+                        <a href="{% url 'kitchen' %}"><img src="{{product.image.url}}"></a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="slider-container">
+            <h2 class="title">Baño</h1>
+            <div class="slider-frame">
+                <ul>
+                    {% for product in products.bathroom %}
+                    <li>
+                        {% if product.on_sale %}
+                        <span class="text-on_sale"><b>En oferta</b></span>
+                        {% endif %}
+                        <a href="bathroom"><img src="{{product.image.url}}"></a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="slider-container">
+            <h2 class="title">Dormitorio</h1>
+            <div class="slider-frame">
+                <ul>
+                    {% for product in products.bedroom %}
+                    <li>
+                        {% if product.on_sale %}
+                        <span class="text-on_sale"><b>En oferta</b></span>
+                        {% endif %}
+                        <a href="bedroom"><img src="{{product.image.url}}"></a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="slider-container">
+            <h2 class="title">Decoración</h2>
+            <div class="slider-frame">
+                <ul>
+                    {% for product in products.decor %}
+                    <li>
+                        {% if product.on_sale %}
+                        <span class="text-on_sale"><b>En oferta</b></span>
+                        {% endif %}
+                        <a href="decor"><img src="{{product.image.url}}"></a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="slider-container">
+            <h2 class="title">Aprovecha las ofertas</h2>
+            <div class="slider-frame">
+                <ul>
+                    {% for product in products.offer %}
+                    <li>
+                        <span class="text-on_sale"><b>En oferta</b></span>
+                        <a href="offers"><img src="{{product.image.url}}"></a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+    
+{% endblock %}
