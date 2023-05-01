@@ -1,0 +1,181 @@
+body{
+	display: flex;
+	flex-direction: column;
+    background-image: url('../images/fondo.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'PT Serif', serif;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.site-main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1360px;
+}
+
+.section-main{
+    padding: 20px;
+    background-color: #f3f3f3b3;
+    border-radius: 8px;
+}
+
+.container-img{
+    display: flex;
+    justify-content: center;
+}
+
+.container-img__div{
+    width: 40%;
+}
+
+.container-img img{
+    object-fit: contain;
+    width: 100%;
+}
+
+.login-title{
+    text-align: center;
+    margin: 0;
+}
+
+.form{
+    display: grid;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0 0 0;
+    gap: 15px;
+}
+
+.form__container-div{
+    display: grid;
+    width: 100%;
+    align-items: center;
+    gap: 25px;
+}
+
+.form__div{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 250px;
+}
+
+.form__div-input{
+    display: flex;
+    background-color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 2rem;
+    padding: 10px;
+}
+
+.form__div-input-error{
+    border: 2px solid #f00;
+}
+
+.form__div-input-error-match{
+    border: 2px solid #a00;
+}
+
+.form__input{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 0 0 0 10px;
+    width: 100%;
+}
+
+.form__label{
+    position: absolute;
+    cursor: text;
+    transition: transform .3s;
+}
+
+.form__span-warning{
+    display: none;
+    color: #a00;
+    font-size: 14px;
+}
+
+#error-username-register{
+    display: flex;
+    margin-top: 5px;
+}
+
+.form__input:focus + .form__label,
+.form__input:not(:placeholder-shown) + .form__label,
+.form__input-error:focus + .form__label,
+.form__input-error:not(:placeholder-shown) + .form__label{
+    transform: translateY(-20px) scale(.9) translateX(-5px);
+    cursor: default;
+    transition: transform .2s;
+}
+
+.imagen-ojo{
+    align-self: center;
+    height: 20px;
+    width: 30px;
+    margin-left: 20px;
+}
+
+.form__p{
+    margin: 0;
+    text-align: center;
+}
+
+.form__a{
+    color: #000;
+}
+
+.form__a:hover{
+    text-decoration: underline;
+}
+
+.form__container-button{
+    margin-top: 5px;
+}
+
+.button{
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    background-color: #004aad;
+    color: #fff;
+}
+
+#error-submit{
+    position: absolute;
+    margin-top: -18px;
+}
+
+.button:hover{
+    background-color: #00ab66;
+}
+
+@media screen and (min-width:1367px){
+	body{
+        height: auto;
+    }
+
+    .site-main{
+		margin: auto;
+	}
+}
+
+@media screen and (max-width:480px){
+    body{
+		width: fit-content;
+        padding: 80px;
+	}
+
+    .form__input{
+        width: 200px;
+    }
+}

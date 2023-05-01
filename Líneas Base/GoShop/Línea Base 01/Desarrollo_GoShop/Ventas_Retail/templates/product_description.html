@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" type="text/css" href="{% static 'css/product_description.css' %}">{% endblock %}
+{% block title %}{{name}}{% endblock %}
+
+{% block content %}
+<section class="site-main__section">
+    <div class="breadcumb">
+        <div class="breadcumb-div"><a href="{% url 'shop' %}">GoShop</a></div>
+        <div class="breadcumb-div breadcumb-div-next">
+            <a href="{% url view %}">{{previous_view}}</a>
+        </div>
+        {% if product.name %}
+            <form method="post" class="form-see-description">
+                {% csrf_token %}
+                <input name="product_id" value="{{product.id}}" hidden>
+                <div class="breadcumb-div breadcumb-div-next" style="user-select: none;">
+                    <button class="button-see-description" name="see-description"><b>{{product.name}}</b></button>
+                </div>
+            </form>
+        {% else %}
+        <div class="breadcumb-div breadcumb-div-next" style="user-select: none;">
+            <b>Descripción del producto</b>
+        </div>
+        {% endif %}
+    </div>
+    {% if error %}
+    <h1>{{error}}</h1>
+    {% else %}
+    <div class="single-product-container" id="single_product-container">
+        <div class="single-product">
+            <div class="single-product__img-container">
+                {% if product.on_sale %}
+                <span class="text-on_sale"><b>En oferta</b></span>
+                {% endif %}
+                <img src="{{product.image.url}}">
+            </div>
+            <div class="single-product__info">
+                <div class="single-product__info-text">
+                    <h1 class="single-product__name">{{product.name}}</h1>
+                    <div class="single-product__details">
+                        {% if product.on_sale %}
+                        <h2 class="single-price"><b>Precio: <s>S/. {{product.price}}</s> S/. {{product.sale_price}}</b></h2>
+                        {% else %}
+                        <h2 class="single-price"><b>Precio: S/. {{product.price}}</b></h2>
+                        {% endif %}
+                        <h3 id="single-stock-article-{{product.id}}"><b>Stock disponible: {{product.stock}}</b></h3>
+                    </div>
+                    <div class="single-description-container">
+                        <h3 class="single-title-description">Descripción</h3>
+                        <p class="single-description">{{product.description}}</p>
+                    </div>
+                </div>
+                <form method="post" class="form-single-product">
+                    {% csrf_token %}
+                    <input class="single-form__input" name="single-product_id" id="single-product-id-{{product.id}}" value="{{product.id}}" hidden>
+                    <div class="single-product__purchase">
+                        <button class="single-product__purchase-button" id="single-button-article-{{product.id}}">Comprar</button>
+                        <b><span class="single-form__span" id="{{product.id}}"></span></b>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
