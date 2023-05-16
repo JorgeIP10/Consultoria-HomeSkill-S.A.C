@@ -7,55 +7,12 @@ from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
 import GoShop.settings as settings
 from .models import Product
+from.shop_cart import ShopCart
 from django.http import JsonResponse
-
-# Create your views here.
-def signup(request):
-    if request.method == 'GET':
-        if request.user.is_anonymous:
-            return render(request, 'register.html')
-        else:
-            return redirect('shop')
-    else:
-        try:
-            user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'], email=request.POST['email'])
-            email = request.POST['email']
-            template = get_template('register_email.html')
-            content = template.render({'username': request.POST['username']})
-
-            message = EmailMultiAlternatives("¡Bienvenido a GoShop!",
-                                f"Bienvenido, {request.POST['username']}, te has registrado correctamente a nuestra tienda virtual.",
-                                settings.EMAIL_HOST_USER,
-                                [email])
-            message.attach_alternative(content, 'text/html')
-            user.save()
-            login(request, user)
-            message.send()
-            return redirect('shop')
-        except IntegrityError:
-            return render(request, 'register.html', {'username': request.POST['username'], 'error': 'El usuario ya existe.'})
-
-def signin(request):
-    if request.method == 'GET':
-        if request.user.is_anonymous:
-            return render(request, 'login.html')
-        else:
-            return redirect('shop')
-    else:
-        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
-        if user is None:
-            return render(request, 'login.html', {'error': 'Usuario y/o contraseña incorrecto(s).'})
-        else:
-            login(request, user)
-            return redirect('shop')
-
-@login_required
-def signout(request):
-    logout(request)
-    return redirect('shop')
 
 def shop(request):
     if request.method == 'GET':
+        # shopcart = ShopCart(request)
         products_kitchen = Product.objects.filter(category_id='Kitchen')[:4]
         products_bathroom = Product.objects.filter(category_id='Bathroom')[:4]
         products_bedroom = Product.objects.filter(category_id='Bedroom')[:4]
@@ -116,16 +73,8 @@ def product_description(request, view_name, product_id):
                     return redirect('description', view_name=view_name, product_id=product.id)
                 except:
                     return redirect('description',  view_name=view_name, product_id=0)
-
-def get_products(request, text):
-    products = list(Product.objects.values())
-    names_products = []
-    for product in products:
-        if product['name'].lower().startswith(text.lower()):
-            names_products.append(product['name'])
-
-    data = {'products': names_products}
-    return JsonResponse(data)
+            elif 'shopcart-button' in request.POST:
+                return redirect('cart')
 
 def kitchen(request):
     return products(request, 'Kitchen', 'Cocina', 'kitchen')
@@ -144,21 +93,28 @@ def offers(request):
         products = Product.objects.filter(on_sale=True)
         return render(request, 'products.html', {'name': 'Ofertas', 'products': products, 'view': 'offers'})
     else:
-        if request.user.is_anonymous:
-            return redirect('signin')
-        else:
-            names = {'Kitchen':'kitchen', 'Bathroom':'bathroom', 'Bedroom':'bedroom', 'Decor':'decor'}
-            if 'button-search' in request.POST:
-                try:
-                    product = Product.objects.get(name=request.POST['search'])
-                    return redirect('description', view_name=names[product.category_id], product_id=product.id)
-                except:
-                    return redirect('description', view_name='offers', product_id=0)
-                
-            elif 'see-description' in request.POST:
-                try:
-                    product = Product.objects.get(id=request.POST['product_id'])
-                    print(product.category_id)
-                    return redirect('description', view_name=names[product.category_id], product_id=product.id)
-                except:
-                    return redirect('description',  view_name='offers', product_id=0)
+        names = {'Kitchen':'kitchen', 'Bathroom':'bathroom', 'Bedroom':'bedroom','Decor':'decor'}
+        if 'button-search' in request.POST:
+            try:
+                product = Product.objects.get(name=request.POST['search'])
+                return redirect('description', view_name=names[product.category_id], product_id=product.id)
+            except:
+                return redirect('description', view_name='offers', product_id=0)
+            
+        elif 'see-description' in request.POST:
+            try:
+                product = Product.objects.get(id=request.POST['product_id'])
+                return redirect('description', view_name=names[product.category_id], product_id=product.id)
+            except:
+                return redirect('description',  view_name='offers', product_id=0)
+
+
+def get_products(request, text):
+    products = list(Product.objects.values())
+    names_products = []
+    for product in products:
+        if product['name'].lower().startswith(text.lower()):
+            names_products.append(product['name'])
+
+    data = {'products': names_products}
+    return JsonResponse(data)
