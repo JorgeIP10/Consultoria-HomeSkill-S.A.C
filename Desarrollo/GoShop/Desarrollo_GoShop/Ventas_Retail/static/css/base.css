@@ -220,6 +220,7 @@ body{
 .site-main{
 	position: relative;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	max-width: 1360px;
 	padding: 20px;
@@ -345,7 +346,7 @@ footer{
 	background-color: #c4302b;
 }
 
-@media screen and (min-width:1400px){
+@media screen and (min-width:1700px){
 	.site-main{
 		margin: auto;
 		margin-bottom: 20px;
