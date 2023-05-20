@@ -26,9 +26,7 @@
 }
 
 .product:hover{
-    display: flex;
-    flex-direction: column;
-    border: 3px solid #004AAD;
+    border-color: #004AAD;
 }
 
 .product__img-container{

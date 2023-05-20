@@ -1,0 +1,229 @@
+.site-main__section{
+	display: flex;
+	flex-direction: column;
+	padding: 0 20px;
+    /* margin-bottom: 20px; */
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.site-main__section__main {
+    /* display: flex; */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    padding: 10px 20px 0 20px;
+}
+
+.cart-container {
+    display: grid;
+    gap: 20px;
+    /* margin-top: 10px; */
+    border: 1px solid #828080;
+}
+
+.cart-container__info {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid #828080;
+    height: fit-content;
+}
+
+.info{
+    position: relative;
+    padding: 20px;
+}
+
+.cart-container__info hr{
+    margin: 20px 0;
+}
+
+.cart-container__info__div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(min-content, max-content));
+}
+
+.info-text {
+    width: 170px;
+}
+
+.info-price {
+    width: 170px;
+}
+
+.cart-container h2 {
+    padding: 20px;
+    border-bottom: 1px solid #828080;
+}
+
+.cart-container__products {
+    display: grid;
+    gap: 20px;
+    padding: 20px;
+}
+
+.cart-container__products hr:last-child {
+    display: none;
+}
+
+.product {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
+    gap: 40px;
+}
+
+.product__img-container {
+    position: relative;
+    max-width: 200px;
+}
+
+.product__img-container img {
+    width: 100%;
+    max-height: 140px;
+}
+
+.text-on_sale {
+    user-select: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 3px;
+    font-size: 11px;
+    background-color: #00ab66;
+}
+
+.text-on_sale::after{
+    content: "";
+    margin-top: -3px;
+    margin-left: 3px;
+    position: absolute;
+    border-top: 9px solid #00ab66;
+    border-right: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-left: 9px solid #00ab66;
+}
+
+.product__info__div {
+    display: grid;
+    gap: 10px;
+    width: 200px;
+}
+
+.product__actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    position: relative;
+    height: fit-content;
+    /* margin-left: 20px; */
+}
+
+.product__actions__quantity-container {
+    display: flex;
+}
+
+.input-quantity-product {
+    width: 50px;
+    padding-left: 5px;
+    padding-right: 9px;
+}
+
+.container-spin {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-icon {
+    font-size: 10px;
+    padding: 0 5px;
+}
+
+.total_product_price {
+    align-self: center;
+    width: max-content;
+}
+
+.icon-trash {
+    font-size: 22px;
+    align-self: center;
+    justify-self: center;
+    cursor: pointer;
+}
+
+.cart-container__info__button {
+    outline: none;
+    border: none;
+    background-color: #004aad;
+    padding: 8px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.cart-container__info__button:hover {
+    background-color: #00ab66;
+}
+
+#back_product_description {
+    display: none;
+	position: fixed;
+    left: 0;
+    width: 100%;
+    height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+@media screen and (max-width:1080px){
+    body {
+        min-width: 1000px;
+    }
+
+    .section-cart{
+        height: auto;
+        max-height: none;
+    }
+
+    .section-cart__summary-description {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, fit-content);
+    }
+    
+    .section-cart__summary-description__container-product {
+        max-width: none;
+        border-right: none;
+    }
+    
+    .section-cart__summary-description__container-product__image{
+        max-width: 280px;
+    }
+
+    .shopcart-container__div {
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width:960px) {
+    .breadcumb {
+        margin-top: 10px;
+    }
+
+    .footer__div{
+        display: flex;
+    }
+
+	.footer__div__info{
+		order: 0;
+        justify-content: center;
+	}
+
+    .footer__div-social_media__ul {
+		justify-content: center;
+	}
+
+    .footer__div-social_media__ul__li{
+        margin: 20px 10px;
+    }
+}

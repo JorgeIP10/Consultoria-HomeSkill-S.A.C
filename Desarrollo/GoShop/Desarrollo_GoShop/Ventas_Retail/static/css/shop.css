@@ -27,6 +27,10 @@
 	padding: 10px;
 }
 
+.slider-container:hover {
+	border-color: #004AAD;
+}
+
 .slider-frame {
 	position: relative;
 	display: flex;
