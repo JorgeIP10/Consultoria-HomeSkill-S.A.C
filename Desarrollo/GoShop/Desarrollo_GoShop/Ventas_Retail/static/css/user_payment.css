@@ -1,0 +1,219 @@
+body{
+    display: grid;
+}
+
+.site-main__section{
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 30px;
+    width: 100%;
+    z-index: 0;
+}
+
+.site-main__menu{
+    position: relative;
+    display: grid;
+    gap: 30px;
+    padding: 30px;
+    border: 2px solid #828080;
+    width: 100%;
+    height: fit-content;
+}
+
+.site-main__menu {
+    width: fit-content;
+}
+
+.menu-option{
+    border-bottom: 2px solid #333;
+    cursor: pointer;
+}
+
+.menu-option:hover{
+    color: #004aad;
+}
+
+.site-main__info{
+    display: none;
+    width: 100%;
+    border: 2px solid #828080;
+    padding: 30px;
+}
+
+.div-payment-view-main{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 50px;
+}
+
+.grid-main{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.div-add-card{
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    width: 100%;
+}
+
+.div-view-cards{
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    justify-items: center;
+    border: 2px solid #828080;
+    padding: 20px 20px 10px 20px;
+}
+
+.div-payment__container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../images/bg-card-front.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 80%;
+    min-width: 350px;
+    height: 190px;
+}
+
+.card-container{
+    display: grid;
+    gap: 30px;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+}
+
+.info-container{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+#message{
+    margin-bottom: 100px;
+}
+
+#button-remember-card{
+    transition: border .1s;
+}
+
+.form-add-card{
+    display: grid;
+    width: 100%;
+    gap: 20px;
+}
+
+.payment-field-container {
+    display: grid;
+    gap: 10px;
+}
+
+.form__input{
+    outline: none;
+    border: none;
+    background-color: #f3f3f3;
+    /* border: 1px solid #004aad; */
+    border: 1px solid #828080;
+    padding: 5px;
+}
+
+.form__input:focus{
+    border-bottom-color: #060;
+}
+
+.form__input-error{
+    border: 2px solid #f00;
+}
+
+.form__input-error:focus{
+    border: 2px solid #a00;
+}
+
+.form__select{
+    background-color: #cca;
+    outline: none;
+    border: none;
+    background-color: #f3f3f3;
+    /* border: 1px solid #004aad; */
+    border: 1px solid #828080;
+    padding: 5px;
+}
+
+.form__select-year {
+    margin-top: 5px;
+}
+
+.form__select-error{
+    border: 2px solid #f00;
+}
+
+.form__option{
+    background-color: #ddd;
+}
+
+.form__option:hover{
+    background-color: #ccc;
+}
+
+.button-container {
+    display: grid;
+    gap: 20px;
+}
+
+.button{
+    outline: none;
+    border: none;
+    background-color: #004aad;
+    padding: 8px;
+    color: #fff;
+    cursor: pointer;
+    width: 100%;
+}
+
+.button:hover{
+    background-color: #00ab66;
+}
+
+.add-button {
+    width: 100%;
+}
+
+.div-add-card{
+    display: none;
+}
+
+.span-success {
+    display: none;
+    color: #016d42;
+    font-weight: bold;
+}
+
+.span-error {
+    display: none;
+    color: #a00;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 960px) {
+    .site-main__section{
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .site-main__menu {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    body {
+        min-width: 500px;
+    }
+}
