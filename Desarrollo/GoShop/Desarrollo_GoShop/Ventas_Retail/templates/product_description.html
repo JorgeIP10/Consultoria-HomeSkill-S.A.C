@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block css %}<link rel="stylesheet" type="text/css" href="{% static 'css/product_description.css' %}">{% endblock %}
-{% block title %}{{name}}{% endblock %}
+{% block title %}{{product.name}}{% endblock %}
 
 {% block content %}
 <section class="site-main__section">
@@ -14,7 +14,7 @@
             <form method="post" class="form-see-description">
                 {% csrf_token %}
                 <input name="product_id" value="{{product.id}}" hidden>
-                <div class="breadcumb-div breadcumb-div-next" style="user-select: none;">
+                <div class="breadcumb-div breadcumb-div-next">
                     <button class="button-see-description" name="see-description"><b>{{product.name}}</b></button>
                 </div>
             </form>
@@ -44,24 +44,59 @@
                         {% else %}
                         <h2 class="single-price"><b>Precio: S/. {{product.price}}</b></h2>
                         {% endif %}
-                        <h3 id="single-stock-article-{{product.id}}"><b>Stock disponible: {{product.stock}}</b></h3>
+                        <h3 id="single-stock-article"><b>Stock disponible: {{product.stock}}</b></h3>
                     </div>
                     <div class="single-description-container">
                         <h3 class="single-title-description">Descripción</h3>
                         <p class="single-description">{{product.description}}</p>
                     </div>
                 </div>
-                <form method="post" class="form-single-product">
+                <form method="post" class="form-single-product" id="form-single-product">
                     {% csrf_token %}
-                    <input class="single-form__input" name="single-product_id" id="single-product-id-{{product.id}}" value="{{product.id}}" hidden>
                     <div class="single-product__purchase">
-                        <button class="single-product__purchase-button" id="single-button-article-{{product.id}}">Comprar</button>
-                        <b><span class="single-form__span" id="{{product.id}}"></span></b>
+                        <button class="single-product__purchase-button" id="single-button-article">Agregar al carrito</button>
+                        <b><span class="single-form__span" id="add-button"></span></b>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <section class="section-cart" id="section-cart">
+        <div id="back_product_description"></div>
+        <form class="section-cart__form" method="post" id="form-cart">
+            {% csrf_token %}
+            <h3 class="section-cart__form__message">Productos agregados exitosamente a su carrito de compras</h3>
+            <article class="section-cart__summary-description">
+                <div class="section-cart__summary-description__container section-cart__summary-description__container-product">
+                    <img class="section-cart__summary-description__container-product__image" src="{{product.image.url}}">
+                    <div class="section-cart__summary-description__container-product__info">
+                        <h2>{{product.name}}</h2>
+                        <h4>S/. {{product.price}}</h4>
+                    </div>
+                </div>
+                <div class="section-cart__summary-description__container  section-cart__summary-description__container-shopcart">
+                    <div class="shopcart-container">
+                        <h2 class="shopcart-title" id="shopcart-quantity"></h2>
+                        <p id="product-quantity"></p>
+                        {% if product.on_sale %}
+                        <p id="product-on_sale-price"><b>Precio unitario: S/. {{product.sale_price}}</b></p>
+                        {% else %}
+                        <p id="product-price"><b>Precio unitario: S/. {{product.price}}</b></p>
+                        {% endif %}
+                        <p id="total-price"></p>
+                        <div class="shopcart-container__div">
+                            <button class="shopcart-container__div__button shopcart-button" name="shopcart-button" id="shopcart-button">Ver carrito</button>
+                            <button class="shopcart-container__div__button pay-button">Proceder a pagar</button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </form>
+    </section>
+    <script>
+        window.data = {product_id: "{{product.id|safe}}"};
+    </script>
+    <script src="{% static 'js/add_shopping_cart.js' %}"></script>
     {% endif %}
 </section>
 {% endblock %}

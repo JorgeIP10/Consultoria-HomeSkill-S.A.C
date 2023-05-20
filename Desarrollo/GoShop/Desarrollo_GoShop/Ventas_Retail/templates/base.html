@@ -47,13 +47,13 @@
 					<b>Crear cuenta</b>
 				</a>
 				{% else %}
-				<a href="#" class="nav_menu__username" id="user-pc">
+				<a href="{% url 'profile' %}" class="nav_menu__username" id="user-pc">
                     <i class="fa-solid fa-circle-user"></i>
-                    <b>Hola, {{request.user.username}}</b>
+                    <b id="hello-user-pc">Hola, {{request.user.username}}</b>
                 </a>
-                <a href="#" class="nav_menu__blog">
+                <a href="{% url 'cart' %}" class="nav_menu__blog">
                     <i class="fa-solid fa-cart-shopping"></i>
-                    <b>Tus compras</b>
+                    <b>Carrito</b>
                 </a>
 				<a href="{% url 'logout' %}" class="nav_menu__logout">
                     <i class="fa-solid fa-right-from-bracket"></i>
@@ -86,10 +86,10 @@
 					<a href="{% url 'signin' %}" class="nav_menu__login"><b>Iniciar sesión</b></a>
 					<a href="{% url 'signup' %}" class="nav_menu__signup"><b>Crear cuenta</b></a>
 					{% else %}
-					<a href="#" class="nav_menu__username" id="user-mobile">
-                        <b>Hola, {{request.user.username}}</b>
+					<a href="{% url 'profile' %}" class="nav_menu__username" id="user-mobile">
+                        <b id="hello-user-mobile">Hola, {{request.user.username}}</b>
                     </a>
-                    <a href="{% url 'shop' %}" class="nav_menu__blog"><b>Tus compras</b></a>
+                    <a href="{% url 'cart' %}" class="nav_menu__blog"><b>Carrito</b></a>
 					<a href="{% url 'logout' %}" class="nav_menu__logout">
                         <b>Cerrar sesión</b>
                     </a>
