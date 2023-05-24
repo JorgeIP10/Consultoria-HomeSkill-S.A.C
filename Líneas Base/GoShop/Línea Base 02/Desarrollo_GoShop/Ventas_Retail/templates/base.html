@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    {% block css %}{% endblock %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
+	<link rel="icon" type="text/css" href="{% static 'images/logo.ico' %}">
+	<script src="https://kit.fontawesome.com/3ed1a45bed.js" crossorigin="anonymous"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=PT+Serif:ital@0;1&family=Roboto+Condensed:wght@300;400&display=swap" rel="stylesheet">
+	<title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+	<header id="header">
+		<nav class="nav_menu" id="nav">
+			<div class="nav_menu__access">
+                <div class="container-img">
+                    <div class="container-img__div">
+                        <a href="{% url 'shop' %}">
+                            <img src="{% static 'images/logo.png' %}" alt="GoShop"/>
+                        </a>
+                    </div>
+                </div>
+                <form method="post" class="header-form" id="header-form">
+                    {% csrf_token %}
+                    <div class="header-form__div-input search-container">
+                        <input class="header-form__input form__search" name="search" id="search" type="text" placeholder="Buscar" required>
+                        <button name="button-search">
+                            <i class="fa-solid fa-magnifying-glass icon-search"></i>
+                        </button>
+                    </div>
+                    <div class="container-div-options">
+                        <div class="div-options" id="options"></div>
+                    </div>
+                </form>
+				{% if request.user.is_anonymous %}
+				<a href="{% url 'signin' %}" class="nav_menu__login">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <b>Iniciar sesión</b>
+                </a>
+				<a href="{% url 'signup' %}" class="nav_menu__signup">
+					<i class="fa-solid fa-user-plus"></i>
+					<b>Crear cuenta</b>
+				</a>
+				{% else %}
+				<a href="{% url 'profile' %}" class="nav_menu__username" id="user-pc">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <b id="hello-user-pc">Hola, {{request.user.username}}</b>
+                </a>
+                <a href="{% url 'cart' %}" class="nav_menu__blog">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <b>Carrito</b>
+                </a>
+				<a href="{% url 'logout' %}" class="nav_menu__logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <b>Cerrar sesión</b>
+                </a>
+				{% endif %}
+			</div>
+			<ul class="nav_menu__ul" id="nav__ul">
+				<li class="nav_menu__ul-li">
+					<a href="{% url 'kitchen' %}"><b>Cocina</b></a>
+				</li>
+				<li class="nav_menu__ul-li">
+					<a href="{% url 'bathroom' %}"><b>Baño</b></a>
+				</li>
+				<li class="nav_menu__ul-li">
+					<a href="{% url 'bedroom' %}"><b>Dormitorio</b></a>
+				</li>
+				<li class="nav_menu__ul-li">
+					<a href="{% url 'decor' %}"><b>Decoración</b></a>
+				</li>
+                <li class="nav_menu__ul-li">
+					<a href="{% url 'offers' %}"><b>Ofertas</b></a>
+				</li>
+			</ul>
+		</nav>
+		<div class="div-mobile">
+			<div id="nav-menu-mobile">
+				<div class="nav_menu__access">
+					{% if request.user.is_anonymous %}
+					<a href="{% url 'signin' %}" class="nav_menu__login"><b>Iniciar sesión</b></a>
+					<a href="{% url 'signup' %}" class="nav_menu__signup"><b>Crear cuenta</b></a>
+					{% else %}
+					<a href="{% url 'profile' %}" class="nav_menu__username" id="user-mobile">
+                        <b id="hello-user-mobile">Hola, {{request.user.username}}</b>
+                    </a>
+                    <a href="{% url 'cart' %}" class="nav_menu__blog"><b>Carrito</b></a>
+					<a href="{% url 'logout' %}" class="nav_menu__logout">
+                        <b>Cerrar sesión</b>
+                    </a>
+					{% endif %}
+				</div>
+				<i class="fa-solid fa-bars" id="icon-bars"></i>
+			</div>
+			
+			<nav id="nav_menu__dropdown">
+				<ul class="nav_menu__dropdown__ul" id="dropdown_ul">
+					<li class="nav_menu__dropdown__ul-li">
+						<a href="{% url 'kitchen' %}"><b>Cocina</b></a>
+					</li>
+					<li class="nav_menu__dropdown__ul-li">
+						<a href="{% url 'bathroom' %}"><b>Baño</b></a>
+					</li>
+					<li class="nav_menu__dropdown__ul-li">
+						<a href="{% url 'bedroom' %}"><b>Dormitorio</b></a>
+					</li>
+					<li class="nav_menu__dropdown__ul-li">
+						<a href="{% url 'decor' %}"><b>Decoración</b></a>
+					</li>
+                    <li class="nav_menu__dropdown__ul-li">
+						<a href="{% url 'offers' %}"><b>Ofertas</b></a>
+					</li>
+				</ul>
+			</nav>
+			<div id="back_menu"></div>
+		</div>
+		<script src="{% static 'js/dropdown_menu.js' %}"></script>
+	</header>
+	<main class="site-main">
+		<div id="back_main"></div>
+		{% block content %}
+		{% endblock %}
+	</main>
+	<script src="{% static 'js/search.js' %}"></script>
+</body>
+<footer class="footer">
+	<div class="footer__div">
+		<div class="footer__div__info">
+			<p>Síguenos en nuestras redes sociales.</p>
+			<p><i class="fa-regular fa-copyright"></i> 2023 - GoShop.</p>
+		</div>
+		<div class="footer__div-social_media">
+			<ul class="footer__div-social_media__ul">
+				<li class="footer__div__ul__li footer__div-social_media__ul__li">
+					<a class="social-network instagram" href="https://www.instagram.com/goshop_10/" target="_blank" rel="noopener noreferrer">
+						<i class="fa-brands fa-instagram"></i>
+					</a>
+				</li>
+				<li class="footer__div__ul__li footer__div-social_media__ul__li">
+					<a class="social-network facebook" href="https://www.facebook.com/profile.php?id=100091725715868" target="_blank" rel="noopener noreferrer">
+						<i class="fa-brands fa-facebook"></i>
+					</a>
+				</li>
+				<li class="footer__div__ul__li footer__div-social_media__ul__li">
+					<a class="social-network twitter" href="https://twitter.com/GoShop681251183" target="_blank" rel="noopener noreferrer">
+						<i class="fa-brands fa-twitter"></i>
+					</a>
+				</li>
+				<li class="footer__div__ul__li footer__div-social_media__ul__li">
+					<a class="social-network youtube" href="https://www.youtube.com/channel/UCpgZCKoonI_-bKCQB61fp5Q" target="_blank" rel="noopener noreferrer">
+						<i class="fa-brands fa-youtube"></i>
+					</a>
+				</li>
+			</ul>	
+		</div>
+	</div>
+</footer>
+</html>
