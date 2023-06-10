@@ -15,34 +15,30 @@ class ShopCart:
         on_shopcart = False
         if self.shopcart:
             for article in self.shopcart:
-                if (product[0]['id'] == article['product'][0]['id']):
+                if (product[0]['id'] == article[0]['id']):
                     on_shopcart = True
-                    article["product"][0]["quantity"] += 1
+                    article[0]["quantity"] += 1
                     break
             if not on_shopcart:
                 product[0]["quantity"] = 1
-                self.shopcart.append({
-                    "product": product,
-                })
+                self.shopcart.append(product)
         else:
             product[0]["quantity"] = 1
-            self.shopcart.append({
-                    "product": product,
-                })
+            self.shopcart.append(product)
         
         self.save()
 
     def remove_product_unit(self, product_id):
         for article in self.shopcart:
-            if (product_id == article['product'][0]['id']):
-                article["product"][0]["quantity"] -= 1
+            if (product_id == article[0]['id']):
+                article[0]["quantity"] -= 1
                 break
         
         self.save()
     
     def remove_product(self, product_id):
         for article in self.shopcart:
-            if (product_id == article['product'][0]['id']):
+            if (product_id == article[0]['id']):
                 self.shopcart.remove(article)
                 break
         
@@ -51,12 +47,12 @@ class ShopCart:
     def quantity_products(self):
         total_products = 0
         for product in self.shopcart:
-            total_products += product["product"][0]["quantity"]
+            total_products += product[0]["quantity"]
 
         return total_products
 
     def save(self):
         self.cartObject.save()
     
-    # def clear(self):
-    #     self.shopcart = []
+    def clear(self):
+        self.cartObject.delete()

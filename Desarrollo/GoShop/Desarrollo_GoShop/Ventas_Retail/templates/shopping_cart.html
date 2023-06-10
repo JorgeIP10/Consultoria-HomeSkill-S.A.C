@@ -50,7 +50,7 @@
                         </div>
                         {% for p in products_model %}
                         {% if p.id == article.id %}
-                        <span class="stock"><b>Stock disponible: {{p.stock}}</b></span>
+                        <span class="stock" id="stock-{{article.id}}"><b>Stock disponible: {{p.stock}}</b></span>
                         {% endif %}
                         {% endfor %}
                     </div>
@@ -105,7 +105,13 @@
             <h3 class="info info-price" id="total-to-pay"></h3>
         </div>
         <hr>
-        <button class="cart-container__info__button">Realizar compra</button>
+        <form method="post" class="cart-container__info__form" name="form-purchase" id="form-purchase">
+            {% csrf_token%}
+            {% for article in products %}
+            <input name="{{article.id}}" value="{{article.quantity}}" hidden>
+            {% endfor %}
+            <button type="submit" class="cart-container__info__button" name="purchase-button" id="purchase-button">Realizar compra</button>
+        </form>
     </article>
 </main>
 {% endif %}

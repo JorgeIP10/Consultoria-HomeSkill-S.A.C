@@ -1,11 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.template.loader import get_template
-from django.core.mail import EmailMultiAlternatives
-import GoShop.settings as settings
 from .models import UserProfile, PaymentCard
 from django.http import JsonResponse
 

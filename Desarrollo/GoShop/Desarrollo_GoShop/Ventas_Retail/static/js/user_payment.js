@@ -164,7 +164,7 @@ formPayment.addEventListener("submit", async (e) => {
             document.getElementById("csrf-error-add").style.display = "none";
         }, 3000);
     }
-})
+});
 
 const checkEvent = () => {
     document.querySelectorAll(".check").forEach((checkbox) => {

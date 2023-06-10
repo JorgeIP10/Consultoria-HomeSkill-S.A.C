@@ -54,8 +54,8 @@
                 <form method="post" class="form-single-product" id="form-single-product">
                     {% csrf_token %}
                     <div class="single-product__purchase">
+                        <span class="" id="warning">Stock agotado.</span>
                         <button class="single-product__purchase-button" id="single-button-article">Agregar al carrito</button>
-                        <b><span class="single-form__span" id="add-button"></span></b>
                     </div>
                 </form>
             </div>
@@ -96,7 +96,7 @@
     <script>
         window.data = {product_id: "{{product.id|safe}}"};
     </script>
-    <script src="{% static 'js/add_shopping_cart.js' %}"></script>
+    <script src="{% static 'js/product_description.js' %}"></script>
     {% endif %}
 </section>
 {% endblock %}

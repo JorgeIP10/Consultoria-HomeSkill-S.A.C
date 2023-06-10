@@ -15,11 +15,88 @@
     padding: 10px 20px 0 20px;
 }
 
-.cart-container {
+.info-container {
     display: grid;
     gap: 20px;
-    /* margin-top: 10px; */
+}
+
+.info-container__section {
+    position: relative;
     border: 1px solid #828080;
+}
+
+.form-confirm-purchase {
+    padding: 20px;
+    /* border: 1px solid #828080; */
+}
+
+.form-personal_info {
+    display: grid;
+    gap: 20px;
+    padding: 20px;
+    /* margin-top: 10px; */
+}
+
+.titles-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+    border-bottom: 1px solid #828080;
+}
+
+.titles-container__div {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    align-items: center;
+}
+
+.titles-container__div-info {
+    user-select: none;
+    gap: 20px;
+}
+
+.titles-container__div-edit {
+    display: none;
+    cursor: pointer;
+    gap: 10px;
+}
+
+.titles-container__div-edit:hover {
+    color: #004aad;
+}
+
+.fa-gear {
+    font-size: 18px;
+}
+
+.titles-container__check {
+    display: none;
+    /* padding: 20px; */
+    color: #00ab66;
+}
+
+.payment-info {
+    display: none;
+}
+
+.form__input{
+    /* pointer-events: none;
+    opacity: 0.5; */
+    outline: none;
+    border: none;
+    background-color: #f3f3f3;
+    /* border: 1px solid #004aad; */
+    border: 1px solid #828080;
+    padding: 5px;
+}
+
+.form__input-error{
+    border: 2px solid #f00;
+}
+
+.form__input-error:focus{
+    border: 2px solid #a00;
 }
 
 .cart-container__info {
@@ -52,11 +129,6 @@
     width: 170px;
 }
 
-.cart-container h2 {
-    padding: 20px;
-    border-bottom: 1px solid #828080;
-}
-
 .cart-container__products {
     display: grid;
     gap: 20px;
@@ -67,61 +139,10 @@
     display: none;
 }
 
-.product {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(3, max-content);
-    gap: 40px;
-}
-
-.product__img-container {
-    position: relative;
-    max-width: 200px;
-}
-
-.product__img-container img {
-    width: 100%;
-    max-height: 140px;
-}
-
-.text-on_sale {
-    user-select: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 3px;
-    font-size: 11px;
-    background-color: #00ab66;
-}
-
-.text-on_sale::after{
-    content: "";
-    margin-top: -3px;
-    margin-left: 3px;
-    position: absolute;
-    border-top: 9px solid #00ab66;
-    border-right: 9px solid transparent;
-    border-bottom: 9px solid transparent;
-    border-left: 9px solid #00ab66;
-}
-
 .product__info__div {
     display: grid;
     gap: 10px;
     width: 200px;
-}
-
-.product__actions {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    position: relative;
-    height: fit-content;
-    /* margin-left: 20px; */
-}
-
-.product__actions__quantity-container {
-    display: flex;
 }
 
 .input-quantity-product {
@@ -145,14 +166,54 @@
     width: max-content;
 }
 
-.icon-trash {
-    font-size: 22px;
-    align-self: center;
-    justify-self: center;
-    cursor: pointer;
+.form-add-card{
+    display: grid;
+    width: 100%;
+    gap: 20px;
+    padding: 20px;
 }
 
-.cart-container__info__button {
+.payment-field-container {
+    display: grid;
+    gap: 10px;
+}
+
+.form__input{
+    outline: none;
+    border: none;
+    background-color: #f3f3f3;
+    /* border: 1px solid #004aad; */
+    border: 1px solid #828080;
+    padding: 5px;
+}
+
+.form__select{
+    background-color: #cca;
+    outline: none;
+    border: none;
+    background-color: #f3f3f3;
+    /* border: 1px solid #004aad; */
+    border: 1px solid #828080;
+    padding: 5px;
+}
+
+.form__select-year {
+    margin-top: 5px;
+}
+
+.form__select-error{
+    border: 2px solid #f00;
+}
+
+.form__option{
+    background-color: #ddd;
+}
+
+.form__option:hover{
+    background-color: #ccc;
+}
+
+.button {
     outline: none;
     border: none;
     background-color: #004aad;
@@ -162,8 +223,33 @@
     width: 100%;
 }
 
-.cart-container__info__button:hover {
+.button:hover {
     background-color: #00ab66;
+}
+
+.span-error {
+    display: none;
+    color: #a00;
+    font-weight: bold;
+}
+
+.load-image {
+    display: none;
+    position: absolute;
+    object-fit: contain;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: girarInfinito 1.5s infinite linear; /* Ajusta la duración y el estilo de la animación según tus necesidades */
+}
+
+@keyframes girarInfinito {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg); /* Angulo de inicio */
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg); /* Angulo de finalización */
+    }
 }
 
 #back_product_description {
