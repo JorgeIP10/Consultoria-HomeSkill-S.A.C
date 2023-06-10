@@ -36,7 +36,17 @@ window.addEventListener("load", () => {
     totalPriceAll.innerHTML = `S/. ${total.toFixed(2)}`;
     totalDelivery.innerHTML = `S/. ${parseInt(totalProductQuantity * 10)}`;
     totalToPay.innerHTML = `<b>S/. ${(totalProductQuantity * 10 + total).toFixed(2)}</b>`;
-})
+});
+
+const getQuantityProductCart = async (id) => {
+    try {
+        const response = await fetch(`../../../shopping_cart/${id}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 const addProduct = async (id) => {
     try {
@@ -55,37 +65,55 @@ buttonsUpClick.forEach((buttonUp) => {
         let inputQuantity = null;
         let data = null;
         let unitPrice = 0;
-        if (e.target.getAttribute("id").startsWith("button-up-")) {
-            idButton = e.target.getAttribute("id");
-            productId = idButton.split("button-up-")[1];
-            data = await addProduct(productId);
-            inputQuantity = document.getElementById(`input-quantity-product-${productId}`);
-            if (document.getElementById(`sale_price-${productId}`)) {
-                unitPrice = data.product.product[0].sale_price;
-            } else {
-                unitPrice = data.product.product[0].price;
-            }
-        } else if (e.target.getAttribute("id").startsWith("button-icon-up-")) {
-            e.stopPropagation();
-            idButton = e.target.getAttribute("id");
-            productId = idButton.split("button-icon-up-")[1];
-            data = await addProduct(productId);
-            inputQuantity = document.getElementById(`input-quantity-product-${productId}`);
-            if (document.getElementById(`sale_price-${productId}`)) {
-                unitPrice = data.product.product[0].sale_price;
-            } else {
-                unitPrice = data.product.product[0].price;
-            }
+        // const idArticleIconUp = e.target.getAttribute("id").startsWith("button-icon-up-").split("button-icon-up-")[1];
+        productId = e.target.getAttribute("id").split("button-icon-up-")[1];
+        if (!productId) {
+            productId = e.target.getAttribute("id").split("button-up-")[1];
         }
-        const totalProductPrice = document.getElementById(`total_product_price-${productId}`);
-        totalProductPrice.innerHTML =
-            `<b>S/. ${(parseFloat(totalProductPrice.innerText.split("S/. ")[1]) + parseFloat(unitPrice)).toFixed(2)}</b>`;
+        inputQuantity = document.getElementById(`input-quantity-product-${productId}`);
 
-        inputQuantity.value = parseInt(inputQuantity.value) + 1;
-        document.getElementById("total-quantity").innerHTML = `${parseInt(data.total_quantity)} artículos`;
-        totalPriceAll.innerHTML = `S/. ${(parseFloat(unitPrice) + parseFloat(totalPriceAll.innerHTML.split("S/. ")[1])).toFixed(2)}`;
-        totalDelivery.innerHTML = `S/. ${parseInt(totalDelivery.innerText.split("S/. ")[1]) + 10}`;
-        totalToPay.innerHTML = `<b>S/. ${(parseFloat(totalPriceAll.innerHTML.split("S/. ")[1]) + parseInt(totalDelivery.innerText.split("S/. ")[1])).toFixed(2)}</b>`;
+        if (inputQuantity.value != document.getElementById(`stock-${productId}`).innerText.split("Stock disponible: ")[1]) {
+            if (e.target.getAttribute("id").startsWith("button-icon-up-")) {
+                e.stopPropagation();
+            }
+            data = await addProduct(productId);
+            if (document.getElementById(`sale_price-${productId}`)) {
+                unitPrice = data.product[0].sale_price;
+            } else {
+                unitPrice = data.product[0].price;
+            }
+
+            // if (e.target.getAttribute("id").startsWith("button-up-")) {
+            //     // idButton = e.target.getAttribute("id");
+            //     // productId = idButton.split("button-up-")[1];
+                
+            //     data = await addProduct(productId);
+            //     if (document.getElementById(`sale_price-${productId}`)) {
+            //         unitPrice = data.product[0].sale_price;
+            //     } else {
+            //         unitPrice = data.product[0].price;
+            //     }
+            // } else if (e.target.getAttribute("id").startsWith("button-icon-up-")) {
+            //     e.stopPropagation();
+            //     // idButton = e.target.getAttribute("id");
+            //     // productId = idButton.split("button-icon-up-")[1];
+            //     data = await addProduct(productId);
+            //     if (document.getElementById(`sale_price-${productId}`)) {
+            //         unitPrice = data.product[0].sale_price;
+            //     } else {
+            //         unitPrice = data.product[0].price;
+            //     }
+            // }
+            const totalProductPrice = document.getElementById(`total_product_price-${productId}`);
+            totalProductPrice.innerHTML =
+                `<b>S/. ${(parseFloat(totalProductPrice.innerText.split("S/. ")[1]) + parseFloat(unitPrice)).toFixed(2)}</b>`;
+    
+            inputQuantity.value = parseInt(inputQuantity.value) + 1;
+            document.getElementById("total-quantity").innerHTML = `${parseInt(data.total_quantity)} artículos`;
+            totalPriceAll.innerHTML = `S/. ${(parseFloat(unitPrice) + parseFloat(totalPriceAll.innerHTML.split("S/. ")[1])).toFixed(2)}`;
+            totalDelivery.innerHTML = `S/. ${parseInt(totalDelivery.innerText.split("S/. ")[1]) + 10}`;
+            totalToPay.innerHTML = `<b>S/. ${(parseFloat(totalPriceAll.innerHTML.split("S/. ")[1]) + parseInt(totalDelivery.innerText.split("S/. ")[1])).toFixed(2)}</b>`;
+        }
     })
 })
 
@@ -114,10 +142,10 @@ buttonsDownClick.forEach((buttonDown) => {
                 data = await removeProductUnit(productId);
                 if (document.getElementById(`sale_price-${productId}`)) {
                     // unitPrice = document.getElementById(`sale_price-${productId}`).innerHTML;
-                    unitPrice = data.product.product[0].sale_price;
+                    unitPrice = data.product[0].sale_price;
                 } else {
                     // unitPrice = document.getElementById(`price-${productId}`).innerHTML;
-                    unitPrice = data.product.product[0].price;
+                    unitPrice = data.product[0].price;
                 }
             }
         } else if (e.target.getAttribute("id").startsWith("button-icon-down-")) {
@@ -129,10 +157,10 @@ buttonsDownClick.forEach((buttonDown) => {
                 data = await removeProductUnit(productId);
                 if (document.getElementById(`sale_price-${productId}`)) {
                     // unitPrice = document.getElementById(`sale_price-${productId}`).innerHTML;
-                    unitPrice = data.product.product[0].sale_price;
+                    unitPrice = data.product[0].sale_price;
                 } else {
                     // unitPrice = document.getElementById(`price-${productId}`).innerHTML;
-                    unitPrice = data.product.product[0].price;
+                    unitPrice = data.product[0].price;
                 }
             }
         }
