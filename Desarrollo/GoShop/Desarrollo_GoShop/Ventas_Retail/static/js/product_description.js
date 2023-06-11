@@ -41,9 +41,9 @@ document.getElementById("form-single-product").addEventListener("submit", async 
             document.getElementById("shopcart-quantity").innerHTML = `Hay ${data.total_quantity} productos en el carrito`;
             document.getElementById("product-quantity").innerHTML = `<b>Cantidad del producto: ${data.product.quantity}</b>`;
             if (document.getElementById("product-on_sale-price")) {
-                document.getElementById("total-price").innerHTML = `<b>Precio total: ${data.product.quantity * parseFloat(data.product.sale_price).toFixed(2)}</b>`;
+                document.getElementById("total-price").innerHTML = `<b>Precio total: $${data.product.quantity * parseFloat(data.product.sale_price).toFixed(2)}</b>`;
             } else {
-                document.getElementById("total-price").innerHTML = `<b>Precio total: ${data.product.quantity * parseFloat(data.product.price).toFixed(2)}</b>`;
+                document.getElementById("total-price").innerHTML = `<b>Precio total: $${data.product.quantity * parseFloat(data.product.price).toFixed(2)}</b>`;
             }
             sectionCart.style.display = "flex";
             backProductDescription.style.display = "flex";

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" type="text/css" href="{% static 'css/confirm_data.css' %}">{% endblock %}
+{% block title %}Tus datos{% endblock %}
+
+{% block content %}
+<section class="site-main__section">
+    <div class="breadcumb">
+        <div class="breadcumb-div"><a href="{% url 'shop' %}">GoShop</a></div>
+        <div class="breadcumb-div breadcumb-div-next">
+            <a href="{% url 'profile' %}">Perfil</a>
+        </div>
+        <div class="breadcumb-div breadcumb-div-next">
+            <a href="{% url previous_view %}">{{previous_name}}</a>
+        </div>
+        <div class="breadcumb-div breadcumb-div-next" style="user-select: none;"><b>Confirmación</b></div>
+    </div>
+    <div class="div-confirm">
+        {% if mode == 'purchase-error' %}
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <h2>Ocurrió un error en la compra.</h2>
+        {% elif mode == 'purchase-ok' %}
+        <i class="fa-sharp fa-solid fa-bag-shopping"></i>
+        <h2>La compra se ha realizado correctamente.</h2>
+        {% else %}
+        <i class="fa-solid fa-circle-check"></i>
+        {% if mode == 'username' %}
+        <h2>Tu nombre de usuario ha sido actualizado exitosamente.</h2>
+        {% elif mode == 'password' %}
+        <h2>Tu contraseña ha sido actualizada exitosamente.</h2>
+        {% elif mode == 'remember-card' %}
+        <h2>La tarjeta ha sido recordada correctamente.</h2>
+        {% elif mode == 'add-card' %}
+        <h2>La tarjeta ha sido agregada correctamente.</h2>
+        {% endif %}
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

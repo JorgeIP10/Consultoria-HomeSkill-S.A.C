@@ -40,9 +40,9 @@
                     <h1 class="single-product__name">{{product.name}}</h1>
                     <div class="single-product__details">
                         {% if product.on_sale %}
-                        <h2 class="single-price"><b>Precio: <s>S/. {{product.price}}</s> S/. {{product.sale_price}}</b></h2>
+                        <h2 class="single-price"><b>Precio: <s>${{product.price}}</s> ${{product.sale_price}}</b></h2>
                         {% else %}
-                        <h2 class="single-price"><b>Precio: S/. {{product.price}}</b></h2>
+                        <h2 class="single-price"><b>Precio: ${{product.price}}</b></h2>
                         {% endif %}
                         <h3 id="single-stock-article"><b>Stock disponible: {{product.stock}}</b></h3>
                     </div>
@@ -55,7 +55,7 @@
                     {% csrf_token %}
                     <div class="single-product__purchase">
                         <span class="" id="warning">Stock agotado.</span>
-                        <button class="single-product__purchase-button" id="single-button-article">Agregar al carrito</button>
+                        <button class="single-product__purchase-button" name="single-button-article" id="single-button-article">Agregar al carrito</button>
                     </div>
                 </form>
             </div>
@@ -71,7 +71,7 @@
                     <img class="section-cart__summary-description__container-product__image" src="{{product.image.url}}">
                     <div class="section-cart__summary-description__container-product__info">
                         <h2>{{product.name}}</h2>
-                        <h4>S/. {{product.price}}</h4>
+                        <h4>${{product.price}}</h4>
                     </div>
                 </div>
                 <div class="section-cart__summary-description__container  section-cart__summary-description__container-shopcart">
@@ -79,9 +79,9 @@
                         <h2 class="shopcart-title" id="shopcart-quantity"></h2>
                         <p id="product-quantity"></p>
                         {% if product.on_sale %}
-                        <p id="product-on_sale-price"><b>Precio unitario: S/. {{product.sale_price}}</b></p>
+                        <p id="product-on_sale-price"><b>Precio unitario: ${{product.sale_price}}</b></p>
                         {% else %}
-                        <p id="product-price"><b>Precio unitario: S/. {{product.price}}</b></p>
+                        <p id="product-price"><b>Precio unitario: ${{product.price}}</b></p>
                         {% endif %}
                         <p id="total-price"></p>
                         <div class="shopcart-container__div">
