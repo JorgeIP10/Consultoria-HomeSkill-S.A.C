@@ -1,15 +1,19 @@
 from django.urls import reverse
 from django.shortcuts import render
-from paypal.standard.forms import PayPalPaymentsForm
+from .forms import CustomPayPalPaymentsForm
+from django.conf import settings
+import uuid
 
 def paypal(request):
 
     # What you want the button to do.
     paypal_dict = {
-        "business": "correo@business.example.com",
-        "amount": "1.00",
+        "business": settings.PAYPAL_RECEIVER_EMAIL,
+        "amount": "0.10",
         "item_name": "name of the item",
-        "invoice": "unique-invoice-id",
+        "quantity": 10,
+        "add": 1,
+        "invoice": str(uuid.uuid4()),
         "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
         "return": request.build_absolute_uri(reverse('successful_payment')),
         "cancel_return": request.build_absolute_uri(reverse('payment_error')),
@@ -17,7 +21,7 @@ def paypal(request):
     }
 
     # Create the instance.
-    form = PayPalPaymentsForm(initial=paypal_dict)
+    form = CustomPayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form}
     return render(request, "paypal.html", context)
 

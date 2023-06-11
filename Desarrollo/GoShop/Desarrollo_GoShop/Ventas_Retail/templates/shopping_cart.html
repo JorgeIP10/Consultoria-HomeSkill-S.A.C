@@ -107,9 +107,6 @@
         <hr>
         <form method="post" class="cart-container__info__form" name="form-purchase" id="form-purchase">
             {% csrf_token%}
-            {% for article in products %}
-            <input name="{{article.id}}" value="{{article.quantity}}" hidden>
-            {% endfor %}
             <button type="submit" class="cart-container__info__button" name="purchase-button" id="purchase-button">Realizar compra</button>
         </form>
     </article>
