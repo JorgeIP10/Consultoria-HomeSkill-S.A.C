@@ -8,4 +8,6 @@ from django.dispatch import receiver
 def webhook(sender, **kwargs):
     ipn_obj = sender
     print('this is my hook')
+    # if ipn_obj.payment_status == 'Completed':
+    #     pass
     return

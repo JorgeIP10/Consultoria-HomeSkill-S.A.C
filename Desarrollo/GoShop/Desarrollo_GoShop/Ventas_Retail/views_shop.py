@@ -40,35 +40,6 @@ def products(request, category_name, name, view_name):
             except:
                 return redirect('description',  view_name=view_name, product_id=0)
 
-def product_description(request, view_name, product_id):
-    names = {'kitchen':'Cocina', 'Kitchen':'Cocina', 'bathroom':'Baño', 'Bathroom':'Baño', 'bedroom':'Dormitorio', 'Bedroom':'Dormitorio', 'decor':'Decoración', 'Decor':'Decoración', 'offers':'Ofertas'}
-    if request.method == 'GET':
-        try:
-            product = Product.objects.get(id=product_id)
-            return render(request, 'product_description.html', {'product': product, 'previous_view': names[product.category_id],'view': view_name})
-        except:
-            return render(request, 'product_description.html', {'error': 'No se ha encontrado el producto.', 'previous_view': names[view_name], 'view': view_name})
-    else:
-        if request.user.is_anonymous:
-            return redirect('signin')
-        else:
-            if 'button-search' in request.POST:
-                try:
-                    product = Product.objects.get(name=request.POST['search'])
-                    return render(request, 'product_description.html', {'product': product, 'previous_view': names[product.category_id],'view': view_name})
-                except:
-                    return render(request, 'product_description.html', {'error': 'No se ha encontrado el producto.', 'previous_view': names[view_name], 'view': view_name})
-            elif 'see-description' in request.POST:
-                try:
-                    product = Product.objects.get(id=request.POST['product_id'])
-                    return redirect('description', view_name=view_name, product_id=product.id)
-                except:
-                    return redirect('description',  view_name=view_name, product_id=0)
-            elif 'shopcart-button' in request.POST:
-                return redirect('cart')
-            elif 'go-shopping' in request.POST:
-                return redirect('buy')
-
 def kitchen(request):
     return products(request, 'Kitchen', 'Cocina', 'kitchen')
 
@@ -101,6 +72,34 @@ def offers(request):
             except:
                 return redirect('description',  view_name='offers', product_id=0)
 
+def product_description(request, view_name, product_id):
+    names = {'kitchen':'Cocina', 'Kitchen':'Cocina', 'bathroom':'Baño', 'Bathroom':'Baño', 'bedroom':'Dormitorio', 'Bedroom':'Dormitorio', 'decor':'Decoración', 'Decor':'Decoración', 'offers':'Ofertas'}
+    if request.method == 'GET':
+        try:
+            product = Product.objects.get(id=product_id)
+            return render(request, 'product_description.html', {'product': product, 'previous_view': names[product.category_id],'view': view_name})
+        except:
+            return render(request, 'product_description.html', {'error': 'No se ha encontrado el producto.', 'previous_view': names[view_name], 'view': view_name})
+    else:
+        if request.user.is_anonymous and 'single-button-article' in request.POST:
+            return redirect('signin')
+        else:
+            if 'button-search' in request.POST:
+                try:
+                    product = Product.objects.get(name=request.POST['search'])
+                    return render(request, 'product_description.html', {'product': product, 'previous_view': names[product.category_id],'view': view_name})
+                except:
+                    return render(request, 'product_description.html', {'error': 'No se ha encontrado el producto.', 'previous_view': names[view_name], 'view': view_name})
+            elif 'see-description' in request.POST:
+                try:
+                    product = Product.objects.get(id=request.POST['product_id'])
+                    return redirect('description', view_name=view_name, product_id=product.id)
+                except:
+                    return redirect('description',  view_name=view_name, product_id=0)
+            elif 'shopcart-button' in request.POST:
+                return redirect('cart')
+            elif 'go-shopping' in request.POST:
+                return redirect('buy')
 
 def get_products(request, text):
     products = list(Product.objects.values())

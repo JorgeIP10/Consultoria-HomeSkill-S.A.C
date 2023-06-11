@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-p6oz1yv@v0@+a5j62%^w49d&m35l+(8ip0*ufj%a!r0)&hn+)7
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://1e39-200-121-231-148.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://2e2b-200-121-231-148.ngrok-free.app']
 
 PAYPAL_TEST = True
 PAYPAL_RECEIVER_EMAIL = 'sb-zmzj715131239@business.example.com'
