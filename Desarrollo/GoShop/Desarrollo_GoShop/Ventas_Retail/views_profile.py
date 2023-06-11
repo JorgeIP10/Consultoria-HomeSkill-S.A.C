@@ -98,10 +98,10 @@ def shopping_history(request):
                 break
             
             if article['sale_price']:
-                article['total_price'] = float(article['sale_price']) * float(article['quantity'])
+                article['total_price'] = round(float(article['sale_price']) * float(article['quantity']), 2)
                 cart_amount += article['total_price']
             else:
-                article['total_price'] = float(article['price']) * float(article['quantity'])
+                article['total_price'] = round(float(article['price']) * float(article['quantity']), 2)
                 cart_amount += article['total_price']
 
             if cont_products_quantity != 1:
@@ -111,7 +111,7 @@ def shopping_history(request):
             cont_rows += 1
             if cont_rows == len(item['products']):
                 article['new_row'] = True
-                article['cart_amount'] = cart_amount
+                article['cart_amount'] = round(cart_amount, 2)
                 total_amount += cart_amount
 
             list_products.append(article)
