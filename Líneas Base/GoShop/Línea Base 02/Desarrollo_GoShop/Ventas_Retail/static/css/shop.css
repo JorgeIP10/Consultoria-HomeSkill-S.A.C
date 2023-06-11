@@ -1,0 +1,143 @@
+.site-main__section{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	padding: 0 10px;
+	margin-bottom: 20px;
+}
+
+.title{
+	text-align: center;
+	color: #000;
+	margin-bottom: 10px;
+}
+
+.site-main__div{
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 10px;
+	width: 100%;
+}
+
+.slider-container{
+	display: flex;
+	flex-direction: column;
+	justify-self: center;
+	border: 3px solid #828080;
+	padding: 10px;
+}
+
+.slider-container:hover {
+	border-color: #004AAD;
+}
+
+.slider-frame {
+	position: relative;
+	display: flex;
+	background-color: #cecece;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.slider-frame ul {
+	position: relative;
+	display: flex;
+	align-items: center;
+	width: 400%;
+	animation: slide 15s infinite ease-in-out;
+}
+
+.slider-frame li {
+	position: relative;
+	width: 100%;
+	list-style: none;
+}
+
+.slider-frame img {
+	object-fit: contain;
+	width: 100%;
+}
+
+.text-on_sale {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 5px 10px;
+    background-color: #00ab66;
+	user-select: none;
+}
+
+.text-on_sale::after{
+    content: "";
+    margin-top: -5px;
+    margin-left: 10px;
+    position: absolute;
+    border-top: 14px solid #00ab66;
+    border-right: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-left: 14px solid #00ab66;
+}
+
+@keyframes slide {
+	0% {margin-left: 300%;}
+	20% {margin-left: 300%;}
+	
+	25% {margin-left: 100%;}
+	45% {margin-left: 100%;}
+	
+	50% {margin-left: -100%;}
+	70% {margin-left: -100%;}
+	
+	75% {margin-left: -300%;}
+	95% {margin-left: -300%;}
+
+	98% {margin-left: 300%;}
+	100% {margin-left: 300%;}
+}
+
+@media screen and (max-width:1080px){
+	.site-main__div{
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: repeat(2, 1fr);
+	}
+
+	.slider-container:last-child{
+		grid-column: 2/3;
+	}
+}
+
+@media screen and (max-width:780px){
+	.site-main__div{
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: repeat(2, 1fr);
+	}
+
+	.slider-container:last-child{
+		grid-column: auto;
+	}
+
+	body{
+		min-width: 1000px;
+	}
+}
+
+@media screen and (max-width:550px){
+	.site-main__div{
+		grid-template-columns: repeat(1, 1fr);
+		grid-template-rows: repeat(4, 1fr);
+	}
+
+	.slider-container{
+		width: 60%;
+	}
+}
+
+@media screen and (max-width:333px){
+	.slider-container:nth-child(2) h1{
+		font-size: 22px;
+	}
+}
