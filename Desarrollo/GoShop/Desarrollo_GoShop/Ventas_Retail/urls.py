@@ -18,6 +18,8 @@ urlpatterns = [
     path('profile/config/confirm/<str:previous_view>/<str:previous_name>/<str:mode>', views_profile.confirm_user_config, name='confirm_user_config'),
     path('profile/payment', views_profile.user_payment, name='payment'),
     path('profile/payment/confirm/<str:previous_view>/<str:previous_name>/<str:mode>', views_profile.confirm_payment, name='confirm_payment'),
+    path('profile/history', views_profile.shopping_history, name='history'),
+    path('profile/history/pdf', views_profile.show_pdf),
     # path('profile/config/<str:username>', views_profile.change_username),
     # path('profile/config/change/password', views_profile.change_password),
     # path('profile/payment/add_payment_method', views_profile.add_payment_method),

@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de compras</title>
+</head>
+<body>
+    <table class="main-table" style="padding: 5px;" border="0.2">
+        <thead class="main-table__thead">
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Importe total</th>
+        </thead>
+        <tbody>
+            {% for article in products %}
+                <tr>
+                    <td>{{article.name}}</td>
+                    {% if article.sale_price %}
+                    <td>{{article.sale_price}}</td>
+                    {% else %}
+                    <td>{{article.price}}</td>
+                    {% endif %}
+                    <td>{{article.quantity}}</td>
+                    <td>{{article.total_price}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

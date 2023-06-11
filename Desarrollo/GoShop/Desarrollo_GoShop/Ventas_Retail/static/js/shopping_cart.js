@@ -80,9 +80,9 @@ buttonsUpClick.forEach((buttonUp) => {
             }
             data = await addProduct(productId);
             if (document.getElementById(`sale_price-${productId}`)) {
-                unitPrice = data.product[0].sale_price;
+                unitPrice = data.product.sale_price;
             } else {
-                unitPrice = data.product[0].price;
+                unitPrice = data.product.price;
             }
 
             // if (e.target.getAttribute("id").startsWith("button-up-")) {
@@ -144,10 +144,10 @@ buttonsDownClick.forEach((buttonDown) => {
                 data = await removeProductUnit(productId);
                 if (document.getElementById(`sale_price-${productId}`)) {
                     // unitPrice = document.getElementById(`sale_price-${productId}`).innerHTML;
-                    unitPrice = data.product[0].sale_price;
+                    unitPrice = data.product.sale_price;
                 } else {
                     // unitPrice = document.getElementById(`price-${productId}`).innerHTML;
-                    unitPrice = data.product[0].price;
+                    unitPrice = data.product.price;
                 }
             }
         } else if (e.target.getAttribute("id").startsWith("button-icon-down-")) {
@@ -159,10 +159,10 @@ buttonsDownClick.forEach((buttonDown) => {
                 data = await removeProductUnit(productId);
                 if (document.getElementById(`sale_price-${productId}`)) {
                     // unitPrice = document.getElementById(`sale_price-${productId}`).innerHTML;
-                    unitPrice = data.product[0].sale_price;
+                    unitPrice = data.product.sale_price;
                 } else {
                     // unitPrice = document.getElementById(`price-${productId}`).innerHTML;
-                    unitPrice = data.product[0].price;
+                    unitPrice = data.product.price;
                 }
             }
         }
@@ -201,16 +201,24 @@ buttonsRemoveProduct.forEach((buttonRemove) => {
         productContainer.removeChild(product);
         productContainer.removeChild(productHr);
         const data = await removeProduct(productId);
-        document.getElementById("total-quantity").innerHTML = `${data.total_quantity} artículos`;
-        totalPriceAll.innerHTML = `S/. ${data.total_price}`;
-        totalDelivery.innerHTML = `S/. ${data.total_quantity*10}`;
-        totalToPay.innerHTML = `<b>S/. ${(parseFloat(totalPriceAll.innerHTML.split("S/. ")[1]) + parseInt(totalDelivery.innerText.split("S/. ")[1])).toFixed(2)}</b>`;
-        if (document.getElementById("products-container").childElementCount == 0) {
+        if (data.total_quantity) {
+            document.getElementById("total-quantity").innerHTML = `${data.total_quantity} artículos`;
+            totalPriceAll.innerHTML = `S/. ${data.total_price}`;
+            totalDelivery.innerHTML = `S/. ${data.total_quantity*10}`;
+            totalToPay.innerHTML = `<b>S/. ${(parseFloat(totalPriceAll.innerHTML.split("S/. ")[1]) + parseInt(totalDelivery.innerText.split("S/. ")[1])).toFixed(2)}</b>`;
+        } else {
             document.getElementById("main").removeChild(document.querySelectorAll(".cart-container")[0]);
             document.getElementById("main").removeChild(document.querySelectorAll(".cart-container__info")[0]);
             let h2 = document.createElement("h2")
             h2.innerHTML = "No hay artículos en el carrito.";
             document.getElementById("main").appendChild(h2);
         }
+        // if (document.getElementById("products-container").childElementCount == 0) {
+        //     document.getElementById("main").removeChild(document.querySelectorAll(".cart-container")[0]);
+        //     document.getElementById("main").removeChild(document.querySelectorAll(".cart-container__info")[0]);
+        //     let h2 = document.createElement("h2")
+        //     h2.innerHTML = "No hay artículos en el carrito.";
+        //     document.getElementById("main").appendChild(h2);
+        // }
     })
 })
