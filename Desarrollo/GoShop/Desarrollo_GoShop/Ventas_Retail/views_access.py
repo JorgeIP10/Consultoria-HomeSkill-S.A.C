@@ -6,10 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
 import GoShop.settings as settings
-from .models import UserProfile
-from django.http import JsonResponse
 
-# Create your views here.
 def signup(request):
     if request.method == 'GET':
         if request.user.is_anonymous:
@@ -29,7 +26,6 @@ def signup(request):
                                 [email])
             message.attach_alternative(content, 'text/html')
             user.save()
-            UserProfile.objects.filter(user_id=user.id).update(password=request.POST['password1'])
             
             login(request, user)
             message.send()

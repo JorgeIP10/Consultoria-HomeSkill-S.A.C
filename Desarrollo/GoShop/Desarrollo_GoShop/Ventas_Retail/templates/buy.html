@@ -31,9 +31,9 @@
             </div>
             <form class="form-personal_info" id="form-personal_info">
                 <label class="form__label form__label-personal_info form__label-name" for="name"><b>Nombres</b></label>
-                <input class="form__input form__input-personal_info form__input-name" type="text" name="name" id="name" required>
+                <input class="form__input form__input-personal_info form__input-name" type="text" name="name" id="name" value="{{names}}" required>
                 <label class="form__label form__label-personal_info form__label-last_name" for="last_name"><b>Apellidos</b></label>
-                <input class="form__input form__input-personal_info form__input-last_name" type="text" name="last_name" id="last_name" required>
+                <input class="form__input form__input-personal_info form__input-last_name" type="text" name="last_name" id="last_name" value="{{surnames}}" required>
                 <label class="form__label form__label-personal_info form__label-dni" for="dni"><b>Documento de Identidad (DNI)</b></label>
                 <input class="form__input form__input-personal_info form__input-dni" type="text" name="dni" id="dni" required>
                 <label class="form__label form__label-personal_info form__label-address" for="address"><b>Dirección de envío</b></label>
@@ -80,7 +80,7 @@
                 <span class="span-advice span-error add-payment-method-error" id="error-add"></span>
                 <span class="span-advice span-error add-payment-method-error" id="error-repeat"></span>
                 <div>
-                    <input class="check" name="remember-card" value="" id="remember-card" type="checkbox">
+                    <input class="check" name="remember-card" value="false" id="remember-card" type="checkbox">
                     <label class="form__label form__label-remember" for="remember-card">Recordar tarjeta</label>
                 </div>
                 <button class="button add-button" name="confirm-purchase" id="confirm-purchase">Confirmar compra</button>

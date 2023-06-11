@@ -3,11 +3,16 @@ body{
 }
 
 .site-main__section{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.site-main__section__div {
     display: grid;
     grid-template-columns: max-content 1fr;
     gap: 30px;
     width: 100%;
-    z-index: 0;
 }
 
 .site-main__menu{
@@ -199,6 +204,10 @@ body{
     display: none;
     color: #a00;
     font-weight: bold;
+}
+
+.span-error-auth {
+    display: flex;
 }
 
 @media screen and (max-width: 960px) {
