@@ -1,5 +1,5 @@
-from django.urls import path
-from . import views_access,views_profile, views_shop, views_shopping_cart, views_purchase
+from django.urls import path, include
+from . import views_access,views_profile, views_shop, views_shopping_cart, views_purchase, views_paypal
 
 urlpatterns = [
     path('', views_shop.shop, name='shop'),
@@ -33,5 +33,9 @@ urlpatterns = [
     path('shopping_cart/buy/<str:names>/<str:surnames>/<str:dni>/<str:address>', views_purchase.save_user_info),
     path('products/add_product/<int:product_id>', views_shopping_cart.add_product),
     path('products/remove_product_unit/<int:product_id>', views_shopping_cart.remove_product_unit),
-    path('products/remove_product/<int:product_id>', views_shopping_cart.remove_product)
+    path('products/remove_product/<int:product_id>', views_shopping_cart.remove_product),
+    path('paypal/', include('paypal.standard.ipn.urls')),
+    path('paypal/payment', views_paypal.paypal, name='paypal'),
+    path('paypal/successful', views_paypal.successful_payment, name='successful_payment'),
+    path('paypal/error', views_paypal.payment_error, name='payment_error')
 ]

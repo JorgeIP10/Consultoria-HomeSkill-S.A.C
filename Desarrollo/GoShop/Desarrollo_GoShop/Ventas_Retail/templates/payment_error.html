@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" type="text/css" href="{% static 'css/paypal.css' %}">{% endblock %}
+{% block title %}Paypal{% endblock %}
+
+{% block content %}
+<section class="site-main__section">
+    <div class="breadcumb">
+        <div class="breadcumb-div"><a href="{% url 'shop' %}">GoShop</a></div>
+        <div class="breadcumb-div breadcumb-div-next">
+            <a href="{% url 'cart' %}">Carrito</a>
+        </div>
+        <div class="breadcumb-div breadcumb-div-next">
+            <a href="{% url 'buy' %}"><b>Realizar compra</b></a>
+        </div>
+    </div>
+</section>
+<main class="site-main__section__main">
+    <h2>Error en el pago</h2>
+</main>
+<script src="{% static 'js/buy.js' %}"></script>
+{% endblock %}
