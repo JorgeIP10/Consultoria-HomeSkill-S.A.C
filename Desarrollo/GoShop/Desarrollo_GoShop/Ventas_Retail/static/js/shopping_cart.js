@@ -11,31 +11,33 @@ const buttonsDownClick = document.querySelectorAll(".button-down-click");
 let totalProductQuantity = 0;
 
 window.addEventListener("load", () => {
-    let productPrice = 0;
-    let productQuantity = 0;
-    let total = 0;
-    const totalProductQuantity = JSON.parse(window.data.total_quantity);
-    quantities.forEach((q) => {
-        let spanId = q.getAttribute("id");
-        let productId = spanId.split("input-quantity-product-")[1];
-        for (let j = 0; j < data.length; j++) {
-            if (data[j] == productId) {
-                productQuantity = q.value;
-                if (document.getElementById(`price-${productId}`)) {
-                    productPrice = document.getElementById(`price-${productId}`).innerHTML;
-                } else {
-                    productPrice = document.getElementById(`sale_price-${productId}`).innerHTML;
+    if (totalPriceAll) {
+        let productPrice = 0;
+        let productQuantity = 0;
+        let total = 0;
+        const totalProductQuantity = JSON.parse(window.data.total_quantity);
+        quantities.forEach((q) => {
+            let spanId = q.getAttribute("id");
+            let productId = spanId.split("input-quantity-product-")[1];
+            for (let j = 0; j < data.length; j++) {
+                if (data[j] == productId) {
+                    productQuantity = q.value;
+                    if (document.getElementById(`price-${productId}`)) {
+                        productPrice = document.getElementById(`price-${productId}`).innerHTML;
+                    } else {
+                        productPrice = document.getElementById(`sale_price-${productId}`).innerHTML;
+                    }
+                    document.getElementById(`total_product_price-${productId}`).innerHTML =
+                    `<b>S/. ${parseFloat(productPrice * productQuantity).toFixed(2)}</b>`;
+                    total += parseFloat(productPrice * productQuantity);
+                    break;
                 }
-                document.getElementById(`total_product_price-${productId}`).innerHTML =
-                `<b>S/. ${parseFloat(productPrice * productQuantity).toFixed(2)}</b>`;
-                total += parseFloat(productPrice * productQuantity);
-                break;
             }
-        }
-    })
-    totalPriceAll.innerHTML = `S/. ${total.toFixed(2)}`;
-    totalDelivery.innerHTML = `S/. ${parseInt(totalProductQuantity * 10)}`;
-    totalToPay.innerHTML = `<b>S/. ${(totalProductQuantity * 10 + total).toFixed(2)}</b>`;
+        })
+        totalPriceAll.innerHTML = `S/. ${total.toFixed(2)}`;
+        totalDelivery.innerHTML = `S/. ${parseInt(totalProductQuantity * 10)}`;
+        totalToPay.innerHTML = `<b>S/. ${(totalProductQuantity * 10 + total).toFixed(2)}</b>`;
+    }
 });
 
 const getQuantityProductCart = async (id) => {
@@ -203,5 +205,12 @@ buttonsRemoveProduct.forEach((buttonRemove) => {
         totalPriceAll.innerHTML = `S/. ${data.total_price}`;
         totalDelivery.innerHTML = `S/. ${data.total_quantity*10}`;
         totalToPay.innerHTML = `<b>S/. ${(parseFloat(totalPriceAll.innerHTML.split("S/. ")[1]) + parseInt(totalDelivery.innerText.split("S/. ")[1])).toFixed(2)}</b>`;
+        if (document.getElementById("products-container").childElementCount == 0) {
+            document.getElementById("main").removeChild(document.querySelectorAll(".cart-container")[0]);
+            document.getElementById("main").removeChild(document.querySelectorAll(".cart-container__info")[0]);
+            let h2 = document.createElement("h2")
+            h2.innerHTML = "No hay artículos en el carrito.";
+            document.getElementById("main").appendChild(h2);
+        }
     })
 })

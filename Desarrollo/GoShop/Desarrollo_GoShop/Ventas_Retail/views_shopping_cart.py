@@ -20,17 +20,7 @@ def shopping_cart(request):
     if request.method == 'GET':
         return render(request, 'shopping_cart.html', {'products': products, 'products_model': products_model, 'id_products': id_products, 'total_quantity': total_quantity})
     else:
-        # products_id = {}
-        # for key, value in request.POST.items():
-            # if (key != 'csrfmiddlewaretoken' and key != 'purchase-button'):
-                # products_id[key] = value
-                # product = Product.objects.get(id=key)
-                # product.stock -= int(value)
-                # product.save()
-        
-        # products_model = Product.objects.all()
         return redirect('buy')
-        return render(request, 'shopping_cart.html', {'products': products, 'products_model': products_model, 'id_products': id_products, 'total_quantity': total_quantity})
 
 def get_product_quantity_cart(request, product_id):
     cart = ShopCart(request)

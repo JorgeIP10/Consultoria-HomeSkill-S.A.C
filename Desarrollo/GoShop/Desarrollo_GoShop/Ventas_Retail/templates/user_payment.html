@@ -5,75 +5,87 @@
 
 {% block content %}
 <section class="site-main__section">
-    <div class="site-main__menu">
-        <h2 class="site-main__menu__title">Métodos de pago</h2>
-        <button class="button menu-payment-button view-button" id="view-methods">Ver métodos de pago</button>
-        <button class="button menu-payment-button add-button" id="add-method">Agregar método de pago</button>
+    <div class="breadcumb">
+        <div class="breadcumb-div"><a href="{% url 'shop' %}">GoShop</a></div>
+        <div class="breadcumb-div breadcumb-div-next">
+            <a href="{% url 'profile' %}">Perfil</a>
+        </div>
+        <div class="breadcumb-div breadcumb-div-next">
+            <a href="{% url 'payment' %}"><b>Métodos de pago</b></a>
+        </div>
     </div>
-    <div class="site-main__info" id="site-main">
-        <div class="div-payment-view-main div-payment" id="div-payment-view-cards">
-            <div class="grid-main" id="grid-main">
-                {% if cards %}
-                {% for card in cards %}
-                <div class="div-view-cards">
-                    <div class="div-payment__container">
-                        <div class="card-container">
-                            <p class="card-number">{{card.number}}</p>
-                            <div class="info-container">
-                                <p class="card-owner">{{card.owner.username}}</p>
-                                <p class="card-expiration-date">{{card.expiration_month}} / {{card.expiration_year}}</p>
+    <div class="site-main__section__div">
+        <div class="site-main__menu">
+            <h2 class="site-main__menu__title">Métodos de pago</h2>
+            <button class="button menu-payment-button view-button" id="view-methods">Ver métodos de pago</button>
+            <button class="button menu-payment-button add-button" id="add-method">Agregar método de pago</button>
+        </div>
+        <div class="site-main__info" id="site-main">
+            <div class="div-payment-view-main div-payment" id="div-payment-view-cards">
+                <div class="grid-main" id="grid-main">
+                    {% if cards %}
+                    {% for card in cards %}
+                    <div class="div-view-cards">
+                        <div class="div-payment__container">
+                            <div class="card-container">
+                                <p class="card-number">{{card.number}}</p>
+                                <div class="info-container">
+                                    <p class="card-owner">{{card.owner.username}}</p>
+                                    <p class="card-expiration-date">{{card.expiration_month}} / {{card.expiration_year}}</p>
+                                </div>
                             </div>
                         </div>
+                        <div class="checkbox-container"><input class="check" id="{{card.id}}" type="checkbox"></div>
                     </div>
-                    <div class="checkbox-container"><input class="check" id="{{card.id}}" type="checkbox"></div>
+                    {% endfor %}
+                    {% else %}
+                    <h2 id="error-title"><b>No tienes tarjetas registradas.</b></h2>
+                    {% endif %}
                 </div>
-                {% endfor %}
-                {% else %}
-                <h2 id="error-title"><b>No tienes tarjetas registradas.</b></h2>
-                {% endif %}
+                <form method="post" class="form-view-cards" id="form-view-cards">
+                    {% csrf_token %}
+                    <input class="input-hidden" name="remember-card" id="remember-card" value=" " hidden>
+                    <div class="button-container button-container-card">
+                        <span class="span-advice span-success remember-message" id="message-remember"></span>
+                        <span class="span-advice span-error remember-error" id="error-remember"></span>
+                        <span class="span-advice span-error csrf-error" id="csrf-error-view"></span>
+                        <button class="button" name="button-remember-card" id="button-remember-card">Recordar tarjeta</button>
+                    </div>
+                </form>
             </div>
-            <form method="post" class="form-view-cards" id="form-view-cards">
-                {% csrf_token %}
-                <input class="input-hidden" name="remember-card" id="remember-card" value=" " hidden>
-                <div class="button-container button-container-card">
-                    <span class="span-advice span-success remember-message" id="message-remember"></span>
-                    <span class="span-advice span-error remember-error" id="error-remember"></span>
-                    <span class="span-advice span-error csrf-error" id="csrf-error-view"></span>
-                    <button class="button" name="button-remember-card" id="button-remember-card">Recordar tarjeta</button>
-                </div>
-            </form>
-        </div>
-        <div class="div-payment div-add-card" id="div-add-card">
-            <form method="post" class="form-add-card" id="form-payment">
-                {% csrf_token %}
-                <div class="payment-field-container payment-number-container" >
-                    <label class="form__label form__label-card" for="card"><b>Número de tarjeta</b></label>
-                    <input class="form__input form__input-card" type="text" name="card" id="card" maxlength="16" placeholder="1234567890123456" required>
-                </div>
-                <div class="payment-field-container payment-date-container">
-                    <label class="form__label form__label-date"><b>Fecha de caducidad</b></label>
-                    <select class="form__select form__select-month" form="form-payment" name="select-month" id="month">
-                    {% for month in dates.months %}
-                        <option class="form__option">{{month}}</option>
-                    {% endfor %}
-                    </select>
-                    <select class="form__select form__select-year" form="form-payment" name="select-year">
-                    {% for year in dates.years %}
-                        <option class="form__option">{{year}}</option>
-                    {% endfor %}
-                    </select>
-                </div>
-                <div class="payment-field-container payment-cvv-container">
-                    <label class="form__label form__label-cvv" for="cvv"><b>CVV/CVC</b></label>
-                    <input class="form__input form__input-cvv" type="text" name="cvv" id="cvv" maxlength="4" placeholder="CVV" required>
-                </div>
-                <span class="span-advice span-success add-payment-method-message" id="message-add"></span>
-                <span class="span-advice span-error add-payment-method-error" id="error-add"></span>
-                <span class="span-advice span-error csrf-error" id="csrf-error-add"></span>
-                <div class="button-container button-container-add-card">
-                    <button class="button add-button" name="button-add-card" id="button-add-card">Agregar tarjeta</button>
-                </div>
-            </form>
+            <div class="div-payment div-add-card" id="div-add-card">
+                <form method="post" class="form-add-card" id="form-payment">
+                    {% csrf_token %}
+                    <div class="payment-field-container payment-number-container" >
+                        <label class="form__label form__label-card" for="card"><b>Número de tarjeta</b></label>
+                        <input class="form__input form__input-card" type="text" name="card" id="card" maxlength="16" placeholder="1234567890123456" required>
+                    </div>
+                    <div class="payment-field-container payment-date-container">
+                        <label class="form__label form__label-date"><b>Fecha de caducidad</b></label>
+                        <select class="form__select form__select-month" form="form-payment" name="select-month" id="month">
+                        {% for month in dates.months %}
+                            <option class="form__option">{{month}}</option>
+                        {% endfor %}
+                        </select>
+                        <select class="form__select form__select-year" form="form-payment" name="select-year">
+                        {% for year in dates.years %}
+                            <option class="form__option">{{year}}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div class="payment-field-container payment-cvv-container">
+                        <label class="form__label form__label-cvv" for="cvv"><b>CVV/CVC</b></label>
+                        <input class="form__input form__input-cvv" type="text" name="cvv" id="cvv" maxlength="4" placeholder="CVV" required>
+                    </div>
+                    <span class="span-advice span-error add-payment-method-error" id="error-add"></span>
+                    {% if error %}
+                    <span class="span-advice span-error span-error-auth add-payment-method-error" id="error-add">{{error}}</span>
+                    {% endif %}
+                    <div class="button-container button-container-add-card">
+                        <button class="button add-button" name="button-add-card" id="button-add-card">Agregar tarjeta</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <script src="{% static 'js/user_payment.js' %}"></script>

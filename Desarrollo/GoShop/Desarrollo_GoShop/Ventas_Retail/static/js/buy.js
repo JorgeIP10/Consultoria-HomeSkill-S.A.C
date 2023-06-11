@@ -7,18 +7,6 @@ window.addEventListener("load", () => {
     document.getElementById("total-to-pay").innerText = `S/. ${(parseInt(quantity) * 10) + parseFloat(document.getElementById("total-price-all").innerText.split("S/. ")[1])}`;
 });
 
-// var jsonFilePath = "static/crypto.json";
-// fetch(jsonFilePath)
-// .then(response => response.json())
-// .then(data => {
-//     // Manejar los datos del archivo JSON aquí
-//     console.log(data);
-// })
-// .catch(error => {
-//     // Manejar los errores aquí
-//     console.error(error);
-// });
-
 const validations = {
     name: /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/,
     dni: /^\d{8}$/,
@@ -72,14 +60,26 @@ inputs.forEach((input) => {
     input.addEventListener("keyup", validateFormKeyUp);
 });
 
-document.getElementById("form-personal_info").addEventListener("submit", (e) => {
+const saveUserInfo = async (names, surnames, dni, address) => {
+    try {
+        const response = await fetch(`../../../shopping_cart/buy/${names}/${surnames}/${dni}/${address}`);
+        if (!response.ok) {
+            console.log('Error en la operación');
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+document.getElementById("form-personal_info").addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (!fields.name || !fields.lastName || !fields.dni) {
+    if (!validations.name.test(document.getElementById("name").value) || !validations.name.test(document.getElementById("last_name").value) || !fields.dni) {
         document.getElementById("span-error-personal-info").style.display = "flex";
         setTimeout(() => {
             document.getElementById("span-error-personal-info").style.display = "none";
         }, 3000);
     } else {
+        await saveUserInfo(document.getElementById("name").value, document.getElementById("last_name").value, document.getElementById("dni").value, document.getElementById("address").value);
         document.getElementById("loag-image").style.display = "initial";
         document.querySelectorAll(".form__input-personal_info").forEach((input) => {
             input.style.pointerEvents = "none";
@@ -116,15 +116,15 @@ document.getElementById("div-edit-personal-info").addEventListener("click", () =
     });
 });
 
-const verifyCard = async (number, month, year, cvv, remember) => {
-    try {
-        const response = fetch(`../../../shopping_cart/buy/${number}/${month}/${year}/${cvv}/${remember}`);
-        const data = (await response).json();
-        return data;
-    } catch (error) {
-        console.log(error);
-    }
-}
+// const verifyCard = async (number, month, year, cvv, remember) => {
+//     try {
+//         const response = fetch(`../../../shopping_cart/buy/${number}/${month}/${year}/${cvv}/${remember}`);
+//         const data = (await response).json();
+//         return data;
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
 
 formSelects.forEach((select) => {
     select.addEventListener("change", (e) => {
@@ -135,7 +135,7 @@ formSelects.forEach((select) => {
             select.classList.remove("form__select-error");
         }
     })
-})
+});
 
 function validateFormSelect(){
     counter = 0;
@@ -153,10 +153,8 @@ function validateFormSelect(){
     })
 }
 
-document.getElementById("form-payment").addEventListener("submit", async (e) => {
+document.getElementById("form-payment").addEventListener("submit", (e) => {
     validateFormSelect();
-    console.log(fields.card);
-    console.log(fields.cvv);
     if (!validations.card.test(document.getElementById("card").value) || !fields.cvv || !fields.selects){
         e.preventDefault();
         document.getElementById("error-add").style.display = "initial";
@@ -168,12 +166,7 @@ document.getElementById("form-payment").addEventListener("submit", async (e) => 
         const check = document.getElementById("remember-card");
         if (check.checked) {
             check.setAttribute("value", "true");
-            console.log(check.value);
-        } else {
-            check.setAttribute("value", "false");
-            console.log(check.value);
         }
-
-        verifyCard(document.getElementById("card").value, document.getElementById("month").value, document.getElementById("year").value, document.getElementById("cvv").value, document.getElementById("remember-card").value);
+        // await verifyCard(document.getElementById("card").value, document.getElementById("month").value, document.getElementById("year").value, document.getElementById("cvv").value, check.value);
     }
 });

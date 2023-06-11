@@ -1,10 +1,9 @@
 from .shop_cart import ShopCart
-from .models import Product, PaymentCard
+from .models import Product, PaymentCard, UserInfo
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from cryptography.fernet import Fernet
-import json
+from django.http import JsonResponse, HttpResponse
 
 def buy_product(request):
     cards = PaymentCard.objects.filter(owner_id=request.user.id)
@@ -24,37 +23,98 @@ def buy_product(request):
     if request.method == 'GET':
         try:
             remembered_card = PaymentCard.objects.get(owner_id=request.user.id, remembered=True)
+            if (UserInfo.objects.filter(user_id=request.user.id)):
+                user = UserInfo.objects.get(user_id=request.user.id)
+                return render(request, 'buy.html', {'products': products, 'total_quantity': total_quantity, 'total_price': total_price, 'cards': cards, 'dates': dates, 'remembered_card': remembered_card.number, 'names': user.names, 'surnames': user.surnames})
+            return render(request, 'buy.html', {'products': products, 'total_quantity': total_quantity, 'total_price': total_price, 'cards': cards, 'dates': dates, 'remembered_card': remembered_card.number})
         except:
-            remembered_card = None
-        return render(request, 'buy.html', {'products': products, 'total_quantity': total_quantity, 'total_price': total_price, 'cards': cards, 'dates': dates, 'remembered_card': remembered_card.number})
+            if (UserInfo.objects.filter(user_id=request.user.id)):
+                user = UserInfo.objects.get(user_id=request.user.id)
+                return render(request, 'buy.html', {'products': products, 'total_quantity': total_quantity,'total_price': total_price, 'cards': cards, 'dates': dates, 'names': user.names, 'surnames': user.surnames})
+            return render(request, 'buy.html', {'products': products, 'total_quantity': total_quantity, 'total_price': total_price, 'cards': cards, 'dates': dates})
     else:
         if 'confirm-purchase' in request.POST:
-            return render(request, 'buy.html', {'products': products, 'total_quantity': total_quantity, 'total_price': total_price, 'cards': cards, 'dates': dates})
-
-def verify_card(request, number, month, year, cvv, remember):
-    if (remember == 'false'):
-        remember = False
-    else:
-        remember = True
-    
+            checkbox = request.POST.get('remember-card', False)
+            remember = False
+            if (checkbox):
+                remember = True
+            
+            try:
+                remembered_card = PaymentCard.objects.get(owner_id=request.user.id, remembered=True)
+            except:
+                remembered_card = None
+            if remember:
+                try:
+                    card = PaymentCard.objects.get(owner_id=request.user.id, number=request.POST['card'])
+                    if (card and not card.remembered):
+                        card.remembered = True
+                        card.save()
+                        if (remembered_card):
+                            remembered_card.remembered = False
+                            remembered_card.save()
+                except:
+                    PaymentCard.objects.create(owner_id=request.user.id, number=request.POST['card'],
+                    expiration_month=request.POST['select-month'], expiration_year=request.POST['select-year'], cvv=request.POST['cvv'], remembered=True)
+                    if remembered_card:
+                        remembered_card.remembered = False
+                        remembered_card.save()
+            
+            cart = ShopCart(request)
+            products = Product.objects.all()
+            quantity = cart.quantity_products()
+            i = 0
+            for item in cart.shopcart:
+                for product in products:
+                    if product.id == item[0]['id']:
+                        product.stock -= item[0]['quantity']
+                        product.save()
+                        i += 1
+                    if i == quantity:
+                        break
+            cart.clear()
+            redirect_url = reverse('confirm_purchase', kwargs={'previous_view': 'buy', 'previous_name': 'Realizar compra', 'mode': 'confirm_purchase'})
+            return redirect(redirect_url)
+        
+def save_user_info(request, names, surnames, dni, address):
     try:
-        remembered_card = PaymentCard.objects.get(owner_id=request.user.id, remembered=True)
+        user_info = UserInfo.objects.get(user_id=request.user.id)
+        if names != user_info.names: user_info.names = names
+        if surnames != user_info.surnames: user_info.surnames = surnames
+        if dni != user_info.dni: user_info.dni = dni
+        if address != user_info.address: user_info.address = address
+        user_info.save()
+        return HttpResponse(status=200)
     except:
-        remembered_card = None
-    print(remember)
-    if remember:
-        try:
-            card = PaymentCard.objects.get(owner_id=request.user.id, number=number)
-            if (card and not card.remembered):
-                card.remembered = True
-                card.save()
-                if (remembered_card):
-                    remembered_card.remembered = False
-                    remembered_card.save()
-        except:
-            PaymentCard.objects.create(owner_id=request.user.id, number=number,
-            expiration_month=month, expiration_year=year, cvv=cvv, remembered=True)
-            if remembered_card:
-                remembered_card.remembered = False
-                remembered_card.save()
-    return JsonResponse({})
+        UserInfo.objects.create(user_id = request.user.id, names = names, surnames = surnames, dni = dni, address = address)
+        return HttpResponse(status=200)
+
+def confirm_purchase(request, previous_view, previous_name, mode):
+    return render(request, 'confirm_data.html', {'previous_view': previous_view, 'previous_name': previous_name, 'mode': mode})
+
+# def verify_card(request, number, month, year, cvv, remember):
+#     if (remember == 'false'):
+#         remember = False
+#     else:
+#         remember = True
+    
+#     try:
+#         remembered_card = PaymentCard.objects.get(owner_id=request.user.id, remembered=True)
+#     except:
+#         remembered_card = None
+#     print(remember)
+#     if remember:
+#         try:
+#             card = PaymentCard.objects.get(owner_id=request.user.id, number=number)
+#             if (card and not card.remembered):
+#                 card.remembered = True
+#                 card.save()
+#                 if (remembered_card):
+#                     remembered_card.remembered = False
+#                     remembered_card.save()
+#         except:
+#             PaymentCard.objects.create(owner_id=request.user.id, number=number,
+#             expiration_month=month, expiration_year=year, cvv=cvv, remembered=True)
+#             if remembered_card:
+#                 remembered_card.remembered = False
+#                 remembered_card.save()
+#     return JsonResponse({})

@@ -1,18 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.db import IntegrityError
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
-from django.template.loader import get_template
-from django.core.mail import EmailMultiAlternatives
-import GoShop.settings as settings
 from .models import Product
-from.shop_cart import ShopCart
 from django.http import JsonResponse
 
 def shop(request):
     if request.method == 'GET':
-        # shopcart = ShopCart(request)
         products_kitchen = Product.objects.filter(category_id='Kitchen')[:4]
         products_bathroom = Product.objects.filter(category_id='Bathroom')[:4]
         products_bedroom = Product.objects.filter(category_id='Bedroom')[:4]
@@ -75,6 +66,8 @@ def product_description(request, view_name, product_id):
                     return redirect('description',  view_name=view_name, product_id=0)
             elif 'shopcart-button' in request.POST:
                 return redirect('cart')
+            elif 'go-shopping' in request.POST:
+                return redirect('buy')
 
 def kitchen(request):
     return products(request, 'Kitchen', 'Cocina', 'kitchen')

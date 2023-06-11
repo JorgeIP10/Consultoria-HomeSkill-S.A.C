@@ -4,7 +4,7 @@
 {% block title %}Carrito{% endblock %}
 
 {% block content %}
-<section class="site-main__section">
+<section class="site-main__section" id="top-section">
     <div class="breadcumb">
         <div class="breadcumb-div"><a href="{% url 'shop' %}">GoShop</a></div>
         <div class="breadcumb-div breadcumb-div-next">
@@ -12,10 +12,10 @@
         </div>
     </div>
     {% if not products %}
-    <h2>No hay artículos en el carrito</h2>
+    <h2>No hay artículos en el carrito.</h2>
     {% else %}
 </section>
-<main class="site-main__section__main">
+<main class="site-main__section__main" id="main">
     <article class="cart-container">
         <h2>Carrito de compra</h2>
         <ul class="cart-container__products" id="products-container">
