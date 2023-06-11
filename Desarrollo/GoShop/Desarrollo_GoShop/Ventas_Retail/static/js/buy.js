@@ -9,18 +9,13 @@ window.addEventListener("load", () => {
 
 const validations = {
     name: /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/,
-    dni: /^\d{8}$/,
-    card: /^(4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9]{2})[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/,
-    cvv: /^\d{3,4}$/
+    dni: /^\d{8}$/
 };
 
 const fields = {
     name: false,
     lastName: false,
-    dni: false,
-    card: false,
-    cvv: false,
-    selects: false
+    dni: false
 };
 
 const validateFieldKeyUp = (expression, input, field) => {
@@ -46,12 +41,6 @@ const validateFormKeyUp = (e) => {
             break;
         case "dni":
             validateFieldKeyUp(validations.dni, e.target, "dni");
-            break;
-        case "card":
-            validateFieldKeyUp(validations.card, e.target, "card");
-            break;
-        case "cvv":
-            validateFieldKeyUp(validations.cvv, e.target, "cvv");
             break;
     }
 };
@@ -116,46 +105,15 @@ document.getElementById("div-edit-personal-info").addEventListener("click", () =
     });
 });
 
-formSelects.forEach((select) => {
-    select.addEventListener("change", (e) => {
-        if (select.value == "--" || select.value == "----"){
-            select.classList.add("form__select-error");
-        }
-        else{
-            select.classList.remove("form__select-error");
-        }
-    })
-});
+document.getElementById("paypal-form").addEventListener("submit", (e) => {
+    let response = grecaptcha.getResponse();
 
-function validateFormSelect(){
-    counter = 0;
-    formSelects.forEach((select) => {
-        if (select.value != "--" && select.value != "----"){
-            counter++;
-        }
-
-        if (counter == 2){
-            fields.selects = true;
-        }
-        else{
-            fields.selects = false;
-        }
-    })
-}
-
-document.getElementById("form-payment").addEventListener("submit", (e) => {
-    validateFormSelect();
-    if (!validations.card.test(document.getElementById("card").value) || !fields.cvv || !fields.selects){
+    if(response.length == 0){
         e.preventDefault();
-        document.getElementById("error-add").style.display = "initial";
-        document.getElementById("error-add").innerHTML = "Rellene los campos correctamente.";
+        document.getElementById("error-captcha").style.display = "initial";
+        document.getElementById("error-captcha").innerHTML = "Complete el captcha.";
         setTimeout(() => {
-            document.getElementById("error-add").style.display = "none";
+            document.getElementById("error-captcha").style.display = "none";
         }, 3000);
-    } else {
-        const check = document.getElementById("remember-card");
-        if (check.checked) {
-            check.setAttribute("value", "true");
-        }
     }
 });

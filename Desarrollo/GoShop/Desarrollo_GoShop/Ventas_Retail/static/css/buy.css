@@ -166,8 +166,9 @@
     width: max-content;
 }
 
-.form-add-card{
+.container-paypal-form{
     display: grid;
+    justify-content: center;
     width: 100%;
     gap: 20px;
     padding: 20px;
@@ -225,6 +226,33 @@
 
 .button:hover {
     background-color: #00ab66;
+}
+
+.paypal-button {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border: none;
+    background-color: #f9be34;
+    padding: 8px;
+    color: #111;
+    cursor: pointer;
+    width: 100%;
+}
+
+.paypal-button:hover{
+    box-shadow: inset 0 0 100px 100px rgba(0, 0, 0, 0.05);
+}
+
+.paypal-logo-img {
+    width: 20px;
+}
+
+.paypal-text-img {
+    width: 85px;
 }
 
 .span-error {

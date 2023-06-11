@@ -36,7 +36,7 @@
                 <input class="form__input form__input-personal_info form__input-last_name" type="text" name="last_name" id="last_name" value="{{surnames}}" required>
                 <label class="form__label form__label-personal_info form__label-dni" for="dni"><b>Documento de Identidad (DNI)</b></label>
                 <input class="form__input form__input-personal_info form__input-dni" type="text" name="dni" id="dni" required>
-                <label class="form__label form__label-personal_info form__label-address" for="address"><b>Dirección de envío</b></label>
+                <label class="form__label form__label-personal_info form__label-address" for="address" required><b>Dirección de envío</b></label>
                 <input class="form__input form__input-personal_info form__input-address" type="text" name="address" id="address" required>
                 <span class="span-advice span-error" id="span-error-personal-info">Rellene los campos correctamente.</span>
                 <button type="submit" class="button form-personal_info__button" name="purchase-button" id="purchase-button">Continuar</button>
@@ -47,44 +47,15 @@
             <div class="titles-container titles-container-payment-info" id="titles-container-payment-info">
                 <div class="titles-container__div titles-container__div-info" id="div-personal-info">
                     <h3 class="titles-container__div__child titles-container__title title-number" id="personal-info-title-number">2</h3>
-                    <h3 class="titles-container__div__child titles-container__title title-name" id="personal-info-title-name">PAGO</h3>
+                    <h3 class="titles-container__div__child titles-container__title title-name" id="personal-info-title-name">VERIFICACIÓN DE SEGURIDAD</h3>
                 </div>
             </div>
-            <form method="post" class="form-add-card" id="form-payment">
+            <div class="container-paypal-form" id="form-payment">
                 {% csrf_token %}
-                <div class="payment-field-container payment-number-container" >
-                    <label class="form__label form__label-card" for="card"><b>Número de tarjeta</b></label>
-                    {% if remembered_card %}
-                    <input class="form__input form__input-card" type="text" name="card" id="card" maxlength="16" placeholder="1234567890123456" value="{{remembered_card}}" required>
-                    {% else %}
-                    <input class="form__input form__input-card" type="text" name="card" id="card" maxlength="16" placeholder="1234567890123456" required>
-                    {% endif %}
-                </div>
-                <div class="payment-field-container payment-date-container">
-                    <label class="form__label form__label-date"><b>Fecha de caducidad</b></label>
-                    <select class="form__select form__select-month" form="form-payment" name="select-month" id="month">
-                    {% for month in dates.months %}
-                        <option class="form__option">{{month}}</option>
-                    {% endfor %}
-                    </select>
-                    <select class="form__select form__select-year" form="form-payment" name="select-year" id="year">
-                    {% for year in dates.years %}
-                        <option class="form__option">{{year}}</option>
-                    {% endfor %}
-                    </select>
-                </div>
-                <div class="payment-field-container payment-cvv-container">
-                    <label class="form__label form__label-cvv" for="cvv"><b>CVV/CVC</b></label>
-                    <input class="form__input form__input-cvv" type="text" name="cvv" id="cvv" maxlength="4" placeholder="CVV" required>
-                </div>
-                <span class="span-advice span-error add-payment-method-error" id="error-add"></span>
-                <span class="span-advice span-error add-payment-method-error" id="error-repeat"></span>
-                <div>
-                    <input class="check" name="remember-card" value="false" id="remember-card" type="checkbox">
-                    <label class="form__label form__label-remember" for="remember-card">Recordar tarjeta</label>
-                </div>
-                <button class="button add-button" name="confirm-purchase" id="confirm-purchase">Confirmar compra</button>
-            </form>
+                {{captcha_form.captcha}}
+                <span class="span-advice span-error" id="error-captcha"></span>
+                {{paypal_form.render}}
+            </div>
         </section>
     </article>
     <article class="cart-container__info">
@@ -102,12 +73,6 @@
             <h3 class="info info-text"><b>Total a pagar</b></h3>
             <h3 class="info info-price" id="total-to-pay"></h3>
         </div>
-        <form method="post" class="cart-container__info__form" name="form-purchase" id="form-purchase">
-            {% csrf_token%}
-            {% for article in products %}
-            <input name="{{article.id}}" value="{{article.quantity}}" hidden>
-            {% endfor %}
-        </form>
     </article>
 </main>
 <script>
