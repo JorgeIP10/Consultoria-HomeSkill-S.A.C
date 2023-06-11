@@ -26,15 +26,13 @@ SECRET_KEY = 'django-insecure-p6oz1yv@v0@+a5j62%^w49d&m35l+(8ip0*ufj%a!r0)&hn+)7
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://2e2b-200-121-231-148.ngrok-free.app']
+# CSRF_TRUSTED_ORIGINS = []
 
 PAYPAL_TEST = True
 PAYPAL_RECEIVER_EMAIL = 'sb-zmzj715131239@business.example.com'
 
 RECAPTCHA_PUBLIC_KEY = '6LeBxlMmAAAAAMGhy7LAdqVVEJng6JmJQzu7eOJf'
 RECAPTCHA_PRIVATE_KEY = '6LeBxlMmAAAAAF2t7kFMwMdowx3qqpklcEqqnErO'
-# RECAPTCHA_PROXY = {'http': 'http://127.0.0.1:8000', 'https': 'https://127.0.0.1:8000'}
-# RECAPTCHA_DOMAIN = 'www.recaptcha.net'
 
 # Application definition
 
@@ -46,6 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Ventas_Retail',
+    'UserAuth',
+    'UserProfile',
+    'ShoppingCart',
+    'PaymentGateway',
     'paypal.standard.ipn',
     'captcha'
 ]
@@ -145,7 +147,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 
-with open('GoShop/credenciales.json') as file:
+with open('GoShop/credentials.json') as file:
     data = json.load(file)
 
 EMAIL_HOST_USER = data['email']

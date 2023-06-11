@@ -121,11 +121,13 @@
 		</div>
 		<script src="{% static 'js/dropdown_menu.js' %}"></script>
 	</header>
-	<main class="site-main">
+	<div class="site-main-container">
 		<div id="back_main"></div>
+		<main class="site-main">
 		{% block content %}
 		{% endblock %}
-	</main>
+		</main>
+	</div>
 	<script src="{% static 'js/search.js' %}"></script>
 </body>
 <footer class="footer">
