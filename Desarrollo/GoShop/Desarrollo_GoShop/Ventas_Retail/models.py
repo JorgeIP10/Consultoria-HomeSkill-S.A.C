@@ -89,16 +89,3 @@ def set_expiration_date(sender, instance, created, **kwargs):
     if created:
         instance.expiration_date = f'{instance.expiration_month}-{instance.expiration_year}'
         instance.save()
-
-class ShoppingHistory(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    file = models.FileField(upload_to='pdfs')
-
-    class Meta:
-        db_table = 'shopping_history'
-        verbose_name = 'shopping_history'
-        verbose_name_plural = 'shopping_histories'
-
-    def __str__(self) -> str:
-        return f'Shopping history of {self.user.username}'

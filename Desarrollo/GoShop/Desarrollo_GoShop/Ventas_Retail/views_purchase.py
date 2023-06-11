@@ -12,12 +12,12 @@ def buy_product(request):
     cart = ShopCart(request)
     products = []
     total_price = 0
-    for item in cart.shopcart:
-        if (item[0]['sale_price']):
-            total_price += (item[0]['sale_price'] * item[0]['quantity'])
+    for item in cart.shopcart[-1]['products']:
+        if (item['sale_price']):
+            total_price += (item['sale_price'] * item['quantity'])
         else:
-            total_price += (item[0]['price'] * item[0]['quantity'])
-        products.append(item[0])
+            total_price += (item['price'] * item['quantity'])
+        products.append(item)
 
     total_quantity = cart.quantity_products()
     if request.method == 'GET':
@@ -63,16 +63,16 @@ def buy_product(request):
             products = Product.objects.all()
             quantity = cart.quantity_products()
             i = 0
-            for item in cart.shopcart:
+            for item in cart.shopcart[-1]['products']:
                 for product in products:
-                    if product.id == item[0]['id']:
-                        product.stock -= item[0]['quantity']
-                        # item[0]
+                    if product.id == item['id']:
+                        product.stock -= item['quantity']
                         product.save()
                         i += 1
                     if i == quantity:
                         break
-            # cart.clear()
+            
+            cart.set_purchased()
             redirect_url = reverse('confirm_purchase', kwargs={'previous_view': 'buy', 'previous_name': 'Realizar compra', 'mode': 'confirm_purchase'})
             return redirect(redirect_url)
         

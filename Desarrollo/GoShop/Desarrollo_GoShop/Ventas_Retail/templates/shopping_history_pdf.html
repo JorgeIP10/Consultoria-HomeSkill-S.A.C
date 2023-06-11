@@ -14,20 +14,37 @@
             <th>Precio</th>
             <th>Cantidad</th>
             <th>Importe total</th>
+            <th>Fecha de compra</th>
         </thead>
         <tbody>
             {% for article in products %}
                 <tr>
                     <td>{{article.name}}</td>
                     {% if article.sale_price %}
-                    <td>{{article.sale_price}}</td>
+                    <td>S/. {{article.sale_price}}</td>
                     {% else %}
-                    <td>{{article.price}}</td>
+                    <td>S/. {{article.price}}</td>
                     {% endif %}
                     <td>{{article.quantity}}</td>
-                    <td>{{article.total_price}}</td>
+                    <td>S/. {{article.total_price}}</td>
+                    {% if article.purchased %}
+                    <td rowspan="{{article.rows_quantity}}">{{article.purchase_time}}</td>
+                    {% endif %}
+                    {% if article.active %}
+                    <td rowspan="{{article.rows_quantity}}">xd</td>
+                    {% endif %}
                 </tr>
+                {% if article.new_row %}
+                <tr>
+                    <td>Total de la compra</td>
+                    <td colspan="4" align="center">S/. {{article.cart_amount}}</td>
+                </tr>
+                {% endif %}
             {% endfor %}
+            <tr>
+                <td>Monto total acumulado</td>
+                <td colspan="4" align="center">S/. {{total_amount}}</td>
+            </tr>
         </tbody>
     </table>
 </body>

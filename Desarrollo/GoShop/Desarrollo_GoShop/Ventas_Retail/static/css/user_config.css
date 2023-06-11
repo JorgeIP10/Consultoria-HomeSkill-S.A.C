@@ -118,6 +118,11 @@
     .div-container {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .site-main__div {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, max-content);
+    }
 }
 
 @media screen and (max-width: 890px){
@@ -131,10 +136,8 @@
         width: 100%;
         margin-bottom: 20px;
     }
-}
 
-@media screen and (max-width: 500px){
-    body{
-		min-width: 500px;
-	}
+    body {
+        min-width: 900px;
+    }
 }

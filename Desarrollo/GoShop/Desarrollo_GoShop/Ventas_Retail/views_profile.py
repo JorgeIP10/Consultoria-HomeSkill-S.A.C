@@ -2,11 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from .models import PaymentCard, ShoppingHistory, ShoppingCart
-from django.http import HttpResponse
-from django.views.decorators.clickjacking import xframe_options_exempt
+from .models import PaymentCard
 from .utils import render_to_pdf
 from .shop_cart import ShopCart
+import base64
 
 @login_required                
 def user_profile(request):
@@ -81,52 +80,44 @@ def user_payment(request):
 def confirm_payment(request, previous_view, previous_name, mode):
     return render(request, 'confirm_data.html', {'previous_view': previous_view, 'previous_name': previous_name, 'mode': mode})
 
-def show_pdf(request):
-    pdf = ShoppingHistory.objects.get(user_id=request.user.id)  # Obtén el PDF desde la base de datos o como mejor aplique a tu caso
-
-    # Define la ruta completa al archivo PDF
-    ruta_pdf = pdf.file.path
-
-    # Lee el contenido del archivo PDF
-    with open(ruta_pdf, 'rb') as f:
-        pdf_data = f.read()
-
-    # Renderiza el PDF en el navegador
-    response = HttpResponse(pdf_data, content_type='application/pdf')
-
-    # Establece el encabezado para la descarga del archivo PDF
-    response['Content-Disposition'] = 'attachment; filename="nombre_archivo.pdf"'
-
-    return response
-
-
 def shopping_history(request):
-    # url_pdf = '/profile/history/pdf'  # Cambia el ID por el adecuado según tus datos
-    # pdf = ShoppingHistory.objects.get(user_id=request.user.id)
-
-    # return render(request, 'shopping_history.html', {'pdf': pdf})
-    cart = list(ShoppingCart.objects.filter(user_id=request.user.id).values('items'))
-    # print(cart)
+    cart = ShopCart(request)
     list_products = []
-    a = {}
-    for item in cart[0]['items']:
-        if item[0]['sale_price']:
-            item[0]['total_price'] = float(item[0]['sale_price']) * float(item[0]['quantity'])
-        else:
-            item[0]['total_price'] = float(item[0]['price']) * float(item[0]['quantity'])
-        list_products.append(item[0])
+    total_amount = 0
+    for item in cart.shopcart:
+        cont = 0
+        cont_products_quantity = 0
+        cont_rows = 0
+        cart_amount = 0
+        for article in item['products']:
+            if item['status'] and cont != 1:
+                article['purchased'] = item['status']['purchased']
+                article['purchase_time'] = item['status']['purchase_time']
+                cont += 1
+            elif cont == 0:
+                break
+            
+            if article['sale_price']:
+                article['total_price'] = float(article['sale_price']) * float(article['quantity'])
+                cart_amount += article['total_price']
+            else:
+                article['total_price'] = float(article['price']) * float(article['quantity'])
+                cart_amount += article['total_price']
 
-    products = {'products': list_products}
+            if cont_products_quantity != 1:
+                article['rows_quantity'] = len(item['products'])
+                cont_products_quantity += 1
+            
+            cont_rows += 1
+            if cont_rows == len(item['products']):
+                article['new_row'] = True
+                article['cart_amount'] = cart_amount
+                total_amount += cart_amount
+
+            list_products.append(article)
+
+    products = {'products': list_products, 'total_amount': round(total_amount, 2)}
 
     pdf = render_to_pdf('shopping_history_pdf.html', products)
-    return HttpResponse(pdf, content_type='application/pdf')
-
-
-# def get(request):
-#     cart = ShoppingCart.objects.all()
-#     data = {
-#         'count': cart.count(),
-#         'empleados': cart
-#     }
-#     pdf = render_to_pdf('home/lista.html', data)
-#     return HttpResponse(pdf, content_type='application/pdf')
+    pdf_data_base64 = base64.b64encode(pdf).decode('utf-8')
+    return render(request, 'shopping_history.html', {'pdf': pdf_data_base64})

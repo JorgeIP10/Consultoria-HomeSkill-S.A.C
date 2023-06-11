@@ -31,9 +31,6 @@ document.getElementById("form-single-product").addEventListener("submit", async 
         e.preventDefault();
         const dataCart = await getQuantityProductCart(productId);
         const productStock = document.getElementById("single-stock-article").innerText.split("Stock disponible: ")[1];
-        console.log(productStock);
-        // console.log(dataCart.quantity);
-        console.log(dataCart);
         if (productStock == dataCart.quantity) {
             document.getElementById("warning").style.display = "initial";
             setTimeout(() => {

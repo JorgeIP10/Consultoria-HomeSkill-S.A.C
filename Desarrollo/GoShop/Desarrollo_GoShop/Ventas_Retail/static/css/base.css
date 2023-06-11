@@ -222,7 +222,7 @@ body{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	max-width: 1360px;
+	max-width: 1500px;
 	padding: 20px;
 	width: 100%;
 }

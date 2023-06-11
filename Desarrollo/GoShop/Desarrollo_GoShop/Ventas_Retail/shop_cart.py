@@ -10,7 +10,6 @@ class ShopCart:
             self.shopcart = self.cartObject.items
         except:
             self.cartObject = ShoppingCart.objects.create(user=self.user, items=[{'products': [], 'status': None}])
-            # [{'products': [], 'status': {'purchased': None, 'purchase_time': None}}]
             self.shopcart = self.cartObject.items
     
     def add_product(self, product):
@@ -44,7 +43,6 @@ class ShopCart:
     def remove_product(self, product_id):
         for article in self.shopcart[-1]['products']:
             if (product_id == article['id']):
-                # article['products'].remove[article]
                 self.shopcart[-1]['products'].remove(article)
                 break
         
@@ -58,11 +56,9 @@ class ShopCart:
         return total_products
     
     def set_purchased(self):
-        print(self.shopcart[-1])
         self.shopcart[-1]['status'] = {}
         self.shopcart[-1]['status']['purchased'] = True
         self.shopcart[-1]['status']['purchase_time'] = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-        print(self.shopcart[-1])
         self.shopcart.append({'products': [], 'status': None})
         self.save()
 
@@ -72,9 +68,3 @@ class ShopCart:
     def clear(self):
         self.cartObject.items = [{'products': [], 'status': None}]
         self.cartObject.save()
-
-    # def last_cart(self):
-    #     articles = []
-    #     for item in self.shopcart[-1]['products']:
-    #         for article in item['products']:
-    #             total_products += article["quantity"]

@@ -62,12 +62,10 @@ const addProduct = async (id) => {
 
 buttonsUpClick.forEach((buttonUp) => {
     buttonUp.addEventListener("click", async (e) => {
-        let idButton = null;
         let productId = null;
         let inputQuantity = null;
         let data = null;
         let unitPrice = 0;
-        // const idArticleIconUp = e.target.getAttribute("id").startsWith("button-icon-up-").split("button-icon-up-")[1];
         productId = e.target.getAttribute("id").split("button-icon-up-")[1];
         if (!productId) {
             productId = e.target.getAttribute("id").split("button-up-")[1];
@@ -84,28 +82,6 @@ buttonsUpClick.forEach((buttonUp) => {
             } else {
                 unitPrice = data.product.price;
             }
-
-            // if (e.target.getAttribute("id").startsWith("button-up-")) {
-            //     // idButton = e.target.getAttribute("id");
-            //     // productId = idButton.split("button-up-")[1];
-                
-            //     data = await addProduct(productId);
-            //     if (document.getElementById(`sale_price-${productId}`)) {
-            //         unitPrice = data.product[0].sale_price;
-            //     } else {
-            //         unitPrice = data.product[0].price;
-            //     }
-            // } else if (e.target.getAttribute("id").startsWith("button-icon-up-")) {
-            //     e.stopPropagation();
-            //     // idButton = e.target.getAttribute("id");
-            //     // productId = idButton.split("button-icon-up-")[1];
-            //     data = await addProduct(productId);
-            //     if (document.getElementById(`sale_price-${productId}`)) {
-            //         unitPrice = data.product[0].sale_price;
-            //     } else {
-            //         unitPrice = data.product[0].price;
-            //     }
-            // }
             const totalProductPrice = document.getElementById(`total_product_price-${productId}`);
             totalProductPrice.innerHTML =
                 `<b>S/. ${(parseFloat(totalProductPrice.innerText.split("S/. ")[1]) + parseFloat(unitPrice)).toFixed(2)}</b>`;
@@ -143,10 +119,8 @@ buttonsDownClick.forEach((buttonDown) => {
             if (inputQuantity.value > 1) {
                 data = await removeProductUnit(productId);
                 if (document.getElementById(`sale_price-${productId}`)) {
-                    // unitPrice = document.getElementById(`sale_price-${productId}`).innerHTML;
                     unitPrice = data.product.sale_price;
                 } else {
-                    // unitPrice = document.getElementById(`price-${productId}`).innerHTML;
                     unitPrice = data.product.price;
                 }
             }
@@ -158,10 +132,8 @@ buttonsDownClick.forEach((buttonDown) => {
             if (inputQuantity.value > 1) {
                 data = await removeProductUnit(productId);
                 if (document.getElementById(`sale_price-${productId}`)) {
-                    // unitPrice = document.getElementById(`sale_price-${productId}`).innerHTML;
                     unitPrice = data.product.sale_price;
                 } else {
-                    // unitPrice = document.getElementById(`price-${productId}`).innerHTML;
                     unitPrice = data.product.price;
                 }
             }
@@ -172,7 +144,6 @@ buttonsDownClick.forEach((buttonDown) => {
             totalProductPrice.innerHTML =
                 `<b>S/. ${(parseFloat(totalProductPrice.innerText.split("S/. ")[1]) - parseFloat(unitPrice)).toFixed(2)}</b>`;
             inputQuantity.value = parseInt(inputQuantity.value) - 1;
-            // totalProductQuantity -= 1;
             document.getElementById("total-quantity").innerHTML = `${data.total_quantity} artículos`;
             totalPriceAll.innerHTML = `S/. ${(parseFloat(totalPriceAll.innerHTML.split("S/. ")[1]) - parseFloat(unitPrice)).toFixed(2)}`;
             totalDelivery.innerHTML = `S/. ${parseInt(totalDelivery.innerText.split("S/. ")[1]) - 10}`;
@@ -213,12 +184,5 @@ buttonsRemoveProduct.forEach((buttonRemove) => {
             h2.innerHTML = "No hay artículos en el carrito.";
             document.getElementById("main").appendChild(h2);
         }
-        // if (document.getElementById("products-container").childElementCount == 0) {
-        //     document.getElementById("main").removeChild(document.querySelectorAll(".cart-container")[0]);
-        //     document.getElementById("main").removeChild(document.querySelectorAll(".cart-container__info")[0]);
-        //     let h2 = document.createElement("h2")
-        //     h2.innerHTML = "No hay artículos en el carrito.";
-        //     document.getElementById("main").appendChild(h2);
-        // }
     })
 })

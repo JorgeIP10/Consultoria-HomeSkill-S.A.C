@@ -116,16 +116,6 @@ document.getElementById("div-edit-personal-info").addEventListener("click", () =
     });
 });
 
-// const verifyCard = async (number, month, year, cvv, remember) => {
-//     try {
-//         const response = fetch(`../../../shopping_cart/buy/${number}/${month}/${year}/${cvv}/${remember}`);
-//         const data = (await response).json();
-//         return data;
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
-
 formSelects.forEach((select) => {
     select.addEventListener("change", (e) => {
         if (select.value == "--" || select.value == "----"){
@@ -167,6 +157,5 @@ document.getElementById("form-payment").addEventListener("submit", (e) => {
         if (check.checked) {
             check.setAttribute("value", "true");
         }
-        // await verifyCard(document.getElementById("card").value, document.getElementById("month").value, document.getElementById("year").value, document.getElementById("cvv").value, check.value);
     }
 });

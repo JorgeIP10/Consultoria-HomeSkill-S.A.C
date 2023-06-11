@@ -40,9 +40,7 @@ def products(request, category_name, name, view_name):
             except:
                 return redirect('description',  view_name=view_name, product_id=0)
 
-from .shop_cart import ShopCart
 def product_description(request, view_name, product_id):
-    # ShopCart(request).clear()
     names = {'kitchen':'Cocina', 'Kitchen':'Cocina', 'bathroom':'Baño', 'Bathroom':'Baño', 'bedroom':'Dormitorio', 'Bedroom':'Dormitorio', 'decor':'Decoración', 'Decor':'Decoración', 'offers':'Ofertas'}
     if request.method == 'GET':
         try:
