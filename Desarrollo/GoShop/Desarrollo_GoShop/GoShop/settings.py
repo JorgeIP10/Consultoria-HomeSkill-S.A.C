@@ -140,3 +140,5 @@ with open('GoShop/credenciales.json') as file:
 
 EMAIL_HOST_USER = data['email']
 EMAIL_HOST_PASSWORD = data['password']
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'

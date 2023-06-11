@@ -1,0 +1,14 @@
+.div-confirm {
+    justify-self: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 10px;
+}
+
+.fa-circle-check {
+    color: #01975b;
+}

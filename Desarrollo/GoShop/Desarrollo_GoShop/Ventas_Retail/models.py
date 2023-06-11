@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from datetime import date
 
 # Create your models here.
 class ProductCategory(models.Model):
@@ -49,29 +48,23 @@ class ShoppingCart(models.Model):
 
     def __str__(self):
         return f"Cart for {self.user.username}"
-    
-class UserProfile(models.Model):
+
+class UserInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    username = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
-    email = models.EmailField(max_length=254, default=None)
+    names = models.CharField(max_length=100)
+    surnames = models.CharField(max_length=100)
+    dni = models.CharField(max_length=8)
+    address = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'user_profile'
-        verbose_name = 'user_profile'
-        verbose_name_plural = 'user_profiles'
+        db_table = 'user_info'
+        verbose_name = 'user_info'
+        verbose_name_plural = 'user_info'
 
     def __str__(self) -> str:
-        return self.username
-    
-@receiver(post_save, sender=User)
-def update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user_id=instance.id, username=instance.username, email=instance.email)
-    else:
-        UserProfile.objects.filter(user_id=instance.id).update(username=instance.username, email=instance.email)
+        return self.names
 
 class PaymentCard(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)

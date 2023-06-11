@@ -3,11 +3,15 @@ body{
 }
 
 .site-main__section{
+    display: flex;
+    flex-direction: column;
+}
+
+.site-main__section__div {
     display: grid;
     grid-template-columns: max-content 1fr;
     gap: 30px;
     width: 100%;
-    z-index: 0;
 }
 
 .site-main__menu{
@@ -201,6 +205,10 @@ body{
     font-weight: bold;
 }
 
+.span-error-auth {
+    display: flex;
+}
+
 @media screen and (max-width: 960px) {
     .site-main__section{
         grid-template-columns: 1fr;
@@ -210,10 +218,17 @@ body{
     .site-main__menu {
         width: 100%;
     }
-}
 
-@media screen and (max-width: 580px) {
+    .site-main__section__div {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, max-content);
+    }
+
+    .site-main__menu__title {
+        text-align: center;
+    }
+
     body {
-        min-width: 500px;
+        min-width: 1000px;
     }
 }

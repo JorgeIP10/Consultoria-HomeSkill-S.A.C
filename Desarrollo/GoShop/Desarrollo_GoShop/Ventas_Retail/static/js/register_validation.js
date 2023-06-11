@@ -51,7 +51,6 @@ const validatePasswordKeyUp = (input) => {
             input.parentNode.classList.remove("form__div-input-error");
         }
     }
-    console.log(fields.password);
 };
 
 const validateFormKeyUp = (e) => {

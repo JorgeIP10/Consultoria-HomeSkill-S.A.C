@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de compras</title>
+</head>
+<body>
+    <table class="main-table" style="padding: 5px;" border="0.2">
+        <thead class="main-table__thead">
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Importe total</th>
+            <th>Fecha de compra</th>
+        </thead>
+        <tbody>
+            {% for article in products %}
+                <tr>
+                    <td>{{article.name}}</td>
+                    {% if article.sale_price %}
+                    <td>S/. {{article.sale_price}}</td>
+                    {% else %}
+                    <td>S/. {{article.price}}</td>
+                    {% endif %}
+                    <td>{{article.quantity}}</td>
+                    <td>S/. {{article.total_price}}</td>
+                    {% if article.purchased %}
+                    <td rowspan="{{article.rows_quantity}}">{{article.purchase_time}}</td>
+                    {% endif %}
+                    {% if article.active %}
+                    <td rowspan="{{article.rows_quantity}}">xd</td>
+                    {% endif %}
+                </tr>
+                {% if article.new_row %}
+                <tr>
+                    <td>Total de la compra</td>
+                    <td colspan="4" align="center">S/. {{article.cart_amount}}</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td>Monto total acumulado</td>
+                <td colspan="4" align="center">S/. {{total_amount}}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

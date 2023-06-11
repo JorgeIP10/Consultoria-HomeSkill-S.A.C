@@ -7,10 +7,13 @@
     max-height: 100%;
 }
 
+body {
+    min-width: fit-content;
+}
+
 .site-main__section__main {
-    /* display: flex; */
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, max-content);
     gap: 30px;
     padding: 10px 20px 0 20px;
 }
@@ -159,6 +162,7 @@
     padding: 8px;
     color: #fff;
     cursor: pointer;
+    width: 100%;
 }
 
 .cart-container__info__button:hover {
@@ -176,10 +180,6 @@
 }
 
 @media screen and (max-width:1080px){
-    body {
-        min-width: 1000px;
-    }
-
     .section-cart{
         height: auto;
         max-height: none;

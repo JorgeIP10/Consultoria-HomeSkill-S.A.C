@@ -63,7 +63,20 @@ const validatePasswordKeyUp = (input) => {
 const validateFormKeyUp = (e) => {
     switch (e.target.name) {
         case "username":
+            if (document.getElementById("error-submit-username-auth")) {
+                document.getElementById("error-submit-username-auth").style.display = "none";
+            }
             validateFieldKeyUp(validations.username, e.target, "username");
+            break;
+        case "password":
+            if (document.getElementById("error-submit-username-auth")) {
+                document.getElementById("error-submit-username-auth").style.display = "none";
+            }
+            break;
+        case "current-password":
+            if (document.getElementById("error-submit-password-auth")) {
+                document.getElementById("error-submit-password-auth").style.display = "none";
+            }
             break;
         case "new-password":
             validatePasswordKeyUp(e.target);
@@ -78,92 +91,23 @@ document.querySelectorAll(".div__input").forEach((input) => {
     input.addEventListener("keyup", validateFormKeyUp);
 });
 
-const changeUsername = async (username) => {
-    try {
-        const response = await fetch(`/profile/config/${username}`);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-let currentPassword = window.data.password;
-document.getElementById("form-edit-container-username").addEventListener("submit", async (e) => {
-    e.preventDefault();
+document.getElementById("form-edit-container-username").addEventListener("submit", (e) => {
     const username = document.getElementById("username").value;
-    if (validations.username.test(username) && document.getElementById("password-div-username").value === currentPassword) {
-        const data = await changeUsername(username);
-        if (document.getElementById("error-submit-username").style.display === "flex") {
-            document.getElementById("error-submit-username").style.display = "none";
-        }
-        document.getElementById("span-username").innerHTML = data.username;
-        document.getElementById("hello-user-pc").innerHTML = `Hola, ${data.username}`;
-        document.getElementById("success-submit-username").style.display = "flex";
-        setTimeout(() => {
-            document.getElementById("success-submit-username").style.display = "none";
-        }, 3000);
-    } else {
+    if (!validations.username.test(username)) {
+        e.preventDefault();
         document.getElementById("error-submit-username").style.display = "flex";
         setTimeout(() => {
             document.getElementById("error-submit-username").style.display = "none";
         }, 3000);
     }
-})
+});
 
-const changePassword = async () => {
-    const formData = new FormData(document.getElementById("form-edit-container-password"));
-    const csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value; 
-    formData.append('csrfmiddlewaretoken', csrf_token);
-    try {
-        await fetch('/profile/config/change/password', {
-        method: 'POST',
-        body: formData
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-let firstPassword = window.data.password;
-let cont = 0;
-document.getElementById("form-edit-container-password").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (fields.password && document.getElementById("password-div-password").value === currentPassword){
-        await changePassword();
-        if (document.getElementById("error-submit-password").style.display === "flex") {
-            document.getElementById("error-submit-password").style.display = "none";
-        }
-        if (document.getElementById("error-submit-password-auth").style.display === "flex") {
-            document.getElementById("error-submit-password-auth").style.display = "none";
-        }
-        document.getElementById("success-submit-password").style.display = "flex";
+document.getElementById("form-edit-container-password").addEventListener("submit", (e) => {
+    if (!fields.password){
+        e.preventDefault();
+        document.getElementById("error-submit-password").style.display = "flex";
         setTimeout(() => {
-            document.getElementById("success-submit-password").style.display = "none";
+            document.getElementById("error-submit-password").style.display = "none";
         }, 3000);
-        if (firstPassword != currentPassword) {
-            document.getElementById("success-submit-password").style.display = "none";
-            document.getElementById("error-submit-password").style.display = "flex";
-            document.getElementById("error-submit-password").innerHTML = "<b>Error al intentar cambiar la contraseña, recargue la página.</b>";
-            setTimeout(() => {
-                document.getElementById("error-submit-password").style.display = "none";
-            }, 3000);
-        }
-        cont++;
-        if (cont <= 1) {
-            currentPassword = document.getElementById("new-password").value;
-        }
-    } else {
-        if (!fields.password) {
-            document.getElementById("error-submit-password").style.display = "flex";
-            setTimeout(() => {
-                document.getElementById("error-submit-password").style.display = "none";
-            }, 3000);
-        } else {
-            document.getElementById("error-submit-password-auth").style.display = "flex";
-            setTimeout(() => {
-                document.getElementById("error-submit-password-auth").style.display = "none";
-            }, 3000);
-        }
     }
-})
+});

@@ -1,0 +1,10 @@
+.site-main__section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.site-main__section__div {
+    display: flex;
+    justify-content: center;
+}
