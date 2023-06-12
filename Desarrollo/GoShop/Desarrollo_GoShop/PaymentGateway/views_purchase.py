@@ -48,14 +48,13 @@ def buy_product(request):
         paypal_dict = json.loads(paypal_dict)
         paypal_form = CustomPayPalPaymentsForm(initial=paypal_dict)
         captcha_form = FormWithCaptcha()
+        total_price_all = total_price + total_delivery
 
         if (UserInfo.objects.filter(user_id=request.user.id)):
             user = UserInfo.objects.get(user_id=request.user.id)
-            return render(request, 'buy.html', {'total_quantity': total_quantity, 'total_price': total_price, 'names': user.names, 'surnames': user.surnames, 'captcha_form': captcha_form, 'paypal_form': paypal_form})
+            return render(request, 'buy.html', {'total_quantity': total_quantity, 'total_price': total_price, 'total_delivery': total_delivery, 'total_price_all': total_price_all, 'names': user.names, 'surnames': user.surnames, 'captcha_form': captcha_form, 'paypal_form': paypal_form})
         
-        total_price_all = total_price + total_delivery
-        
-        return render(request, 'buy.html', {'total_quantity': total_quantity, 'total_price': total_price, 'total_delivery': total_delivery, 'total_price_all': total_price_all ,'captcha_form': captcha_form, 'paypal_form': paypal_form})
+        return render(request, 'buy.html', {'total_quantity': total_quantity, 'total_price': total_price, 'total_delivery': total_delivery, 'total_price_all': total_price_all,'captcha_form': captcha_form, 'paypal_form': paypal_form})
     else:
         if 'button-search' in request.POST:
             names = {'Kitchen':'kitchen', 'Bathroom':'bathroom', 'Bedroom':'bedroom','Decor':'decor'}
