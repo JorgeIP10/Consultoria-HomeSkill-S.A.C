@@ -22,6 +22,7 @@ def buy_product(request):
                 total_price += (item['price'] * item['quantity'])
         total_price = round(total_price, 2)
         total_quantity = cart.quantity_products()
+        total_delivery = total_quantity * 10
 
         for item in cart.shopcart[-1]['products']:
             if item['sale_price']:
@@ -52,7 +53,9 @@ def buy_product(request):
             user = UserInfo.objects.get(user_id=request.user.id)
             return render(request, 'buy.html', {'total_quantity': total_quantity, 'total_price': total_price, 'names': user.names, 'surnames': user.surnames, 'captcha_form': captcha_form, 'paypal_form': paypal_form})
         
-        return render(request, 'buy.html', {'total_quantity': total_quantity, 'total_price': total_price, 'captcha_form': captcha_form, 'paypal_form': paypal_form})
+        total_price_all = total_price + total_delivery
+        
+        return render(request, 'buy.html', {'total_quantity': total_quantity, 'total_price': total_price, 'total_delivery': total_delivery, 'total_price_all': total_price_all ,'captcha_form': captcha_form, 'paypal_form': paypal_form})
     else:
         if 'button-search' in request.POST:
             names = {'Kitchen':'kitchen', 'Bathroom':'bathroom', 'Bedroom':'bedroom','Decor':'decor'}
