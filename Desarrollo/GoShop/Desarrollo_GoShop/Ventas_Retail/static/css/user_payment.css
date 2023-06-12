@@ -5,7 +5,6 @@ body{
 .site-main__section{
     display: flex;
     flex-direction: column;
-    
 }
 
 .site-main__section__div {
@@ -219,10 +218,17 @@ body{
     .site-main__menu {
         width: 100%;
     }
-}
 
-@media screen and (max-width: 580px) {
+    .site-main__section__div {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, max-content);
+    }
+
+    .site-main__menu__title {
+        text-align: center;
+    }
+
     body {
-        min-width: 500px;
+        min-width: 1000px;
     }
 }

@@ -86,7 +86,7 @@
 }
 
 .single-product__purchase-button:hover{
-    background-color: #001FAD;
+    background-color: #00ab66;
 }
 
 .form-see-description {
@@ -195,6 +195,10 @@
     padding: 8px;
     width: 100%;
     cursor: pointer;
+}
+
+.shopcart-container__div__button:hover {
+    background-color: #00ab66;
 }
 
 #back_product_description {

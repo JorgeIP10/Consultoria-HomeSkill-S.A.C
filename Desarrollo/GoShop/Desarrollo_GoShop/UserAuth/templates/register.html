@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
+	<title>Crear cuenta</title>
+</head>
+<body>
+    <main class="site-main">
+        <section class="section-main">
+			<div class="container-img">
+				<div class="container-img__div">
+					<a href="{% url 'shop' %}">
+						<img src="{% static 'images/logo.png' %}" alt="GoShop"/>
+					</a>
+				</div>
+        	</div>
+			<h1 class="login-title">Crear cuenta</h1>
+			<form method="post" class="form" id="form">
+				{% csrf_token %}
+				<script>
+				const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+				</script>
+				<div class="form__container-div">
+					<div class="form__div form__username">
+						<div class="form__div-input username-container">
+							<input class="form__input form__input-username" name="username" id="username" type="text" placeholder="Nombre de usuario" value="{{username}}" required>
+						</div>
+						<div class="span-container">
+							<span class="form__span-warning" id="error-username-register">{{error}}</span>
+						</div>
+					</div>
+					<div class="form__div form__email">
+						<div class="form__div-input email-container">
+							<input class="form__input form__input-email" name="email" id="email" type="email" placeholder="Correo electrónico" required>
+						</div>
+					</div>
+					<div class="form__div form__password1">
+						<div class="form__div-input password-container">
+							<input class="form__input form__input-password" name="password1" id="password1" type="password" placeholder="Contraseña" required>
+							<img class="imagen-ojo" src="{% static 'images/ojo.png' %}">
+						</div>
+					</div>
+					<div class="form__div form__password2">
+						<div class="form__div-input password-container">
+							<input class="form__input form__input-password" name="password2" id="password2" type="password" placeholder="Repita su contraseña" required>
+							<img class="imagen-ojo" src="{% static 'images/ojo.png' %}">
+						</div>
+					</div>
+				</div>
+				<div class="form__div form__container-button">
+					<button class="button">Crear cuenta</button>
+					<span class="form__span-warning" id="error-submit">Rellene los campos correctamente.</span>
+				</div>
+				<p class="form__p">¿Ya tienes una cuenta? <a href="{% url 'signin' %}" class="form__a">Iniciar sesión</a></p>
+			</form>
+		</section>
+    </main>
+	<script src="{% static 'js/register_validation.js' %}"></script>
+</body>
+</html>

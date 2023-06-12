@@ -25,9 +25,9 @@
                     <h3 class="product__name">{{article.name}}</h3>
                     <div class="product__details">
                         {% if article.on_sale %}
-                        <p><b>Precio: <s>S/. {{article.price}}</s> S/. {{article.sale_price}}</b></p>
+                        <p><b>Precio: <s>${{article.price}}</s> ${{article.sale_price}}</b></p>
                         {% else %}
-                        <p><b>Precio: S/. {{article.price}}</b></p>
+                        <p><b>Precio: ${{article.price}}</b></p>
                         {% endif %}
                         <p id="stock-article-{{article.id}}"><b>Stock disponible: {{article.stock}}</b></p>
                     </div>

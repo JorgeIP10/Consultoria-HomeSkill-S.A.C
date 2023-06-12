@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" type="text/css" href="{% static 'css/user_config.css' %}">{% endblock %}
+{% block title %}Tus datos{% endblock %}
+
+{% block content %}
+<section class="site-main__section">
+    <div class="breadcumb">
+        <div class="breadcumb-div"><a href="{% url 'shop' %}">GoShop</a></div>
+        <div class="breadcumb-div breadcumb-div-next">
+            <a href="{% url 'profile' %}">Perfil</a>
+        </div>
+        <div class="breadcumb-div breadcumb-div-next">
+            <a href="{% url 'config' %}"><b>Tus datos</b></a>
+        </div>
+    </div>
+    <div class="site-main__div">
+        <div class="site-main__info">
+            <div class="div-container div-container-username" id="div-username">
+                <div class="div-info div-info-username">
+                    <label class="label-info label-username"><b>Nombre de usuario</b></label>
+                    <span class="span-info span-username" id="span-username">{{request.user.username}}</span>
+                </div>
+                <button class="edit-button edit-button-username" id="edit-username">Editar</button>
+            </div>
+            <div class="div-container div-container-password" id="div-password">
+                <div class="div-info div-info-password">
+                    <label class=" label-info label-password"><b>Contraseña</b></label>
+                    <span class="span-info span-password">*********</span>
+                </div>
+                <button class="edit-button edit-button-password" id="edit-password">Editar</button>
+            </div>
+        </div>
+        <div class="site-main__edit-info" id="div-edit">
+            <form method="post" class="form-edit-container form-edit-container-username" id="form-edit-container-username">
+                {% csrf_token %}
+                <div class="edit-titles">
+                    <h2>Cambia tu nombre de usuario</h2>
+                    <h3>Introduce un nuevo nombre de usuario y tu contraseña actual.</h3>
+                </div>
+                <div class="fields-container username-container">
+                    <label class="div__label username-container__label" for="username">Nombre de usuario</label>
+                    <input class="div__input username-container__input" name="username" id="username" value="{{request.user.username}}" required>
+                </div>
+                <div class="fields-container password-container">
+                    <label class="div__label password-container__label" for="password-div-username">Contraseña actual</label>
+                    <input class="div__input password-container__input" type="password" name="password" id="password-div-username" required>
+                </div>
+                <span class="div__span-warning div__span-warning-error" id="error-submit-username">Rellene los campos correctamente.</span>
+                {% if error_username %}
+                <span class="div__span-warning div__span-warning-auth" id="error-submit-username-auth">{{error_username}}</span>
+                {% endif %}
+                <button class="button-confirm-changes" name="confirm-username" id="confirm-username">Confirmar cambio</button>
+            </form>
+            <form method="post" class="form-edit-container form-edit-container-password" id="form-edit-container-password">
+                {% csrf_token %}
+                <div class="edit-titles">
+                    <h2>Actualiza tu contraseña</h2>
+                    <h3>Introduce tu contraseña actual y una nueva contraseña.</h3>
+                </div>
+                <div class="fields-container current-password-container">
+                    <label class="div__label current-password-container__label" for="password-div-password">Contraseña actual</label>
+                    <input class="div__input current-password-container__input" type="password" name="current-password" id="password-div-password" required>
+                </div>
+                <div class="fields-container new-password-container">
+                    <label class="div__label new-password-container__label" for="new-password">Nueva contraseña</label>
+                    <input class="div__input new-password-container__input" type="password" name="new-password" id="new-password" required>
+                </div>
+                <div class="fields-container repeat-password-container">
+                    <label class="div__label repeat-password-container__label" for="repeat-password">Confirmar nueva contraseña</label>
+                    <input class="div__input repeat-password-container__input" type="password" name="repeat-password" id="repeat-password" required>
+                </div>
+                <span class="div__span-warning div__span-warning-error" id="error-submit-password">Rellene los campos correctamente.</span>
+                {% if error_password %}
+                <span class="div__span-warning div__span-warning-auth" id="error-submit-password-auth">{{error_password}}</span>
+                {% endif %}
+                <button class="button-confirm-changes" name="confirm-password" id="confirm-password">Confirmar cambio</button>
+            </form>
+        </div>
+    </div>
+    <script src="{% static 'js/user_config.js' %}"></script>
+</section>
+{% endblock %}
