@@ -37,12 +37,12 @@
                 <tr>
                     <td>{{article.name}}</td>
                     {% if article.sale_price %}
-                    <td>S/. {{article.sale_price}}</td>
+                    <td>${{article.sale_price}}</td>
                     {% else %}
-                    <td>S/. {{article.price}}</td>
+                    <td>${{article.price}}</td>
                     {% endif %}
                     <td>{{article.quantity}}</td>
-                    <td>S/. {{article.total_price}}</td>
+                    <td>${{article.total_price}}</td>
                     {% if article.purchased %}
                     <td rowspan="{{article.rows_quantity}}" align="center">{{article.purchase_time}}</td>
                     {% endif %}
@@ -50,13 +50,13 @@
                 {% if article.new_row %}
                 <tr>
                     <td>Total de la compra</td>
-                    <td colspan="4" align="center">S/. {{article.cart_amount}}</td>
+                    <td colspan="4" align="center">${{article.cart_amount}}</td>
                 </tr>
                 {% endif %}
             {% endfor %}
             <tr>
                 <td>Monto total acumulado</td>
-                <td colspan="4" align="center">S/. {{total_amount}}</td>
+                <td colspan="4" align="center">${{total_amount}}</td>
             </tr>
         </tbody>
     </table>
