@@ -64,6 +64,7 @@ def remove_product_unit(request, product_id):
     cart = ShopCart(request)
     cart.remove_product_unit(product_id)
     
+    selected_product = None
     for article in cart.shopcart[-1]['products']:
         if (product_id == article['id']):
             selected_product = article
