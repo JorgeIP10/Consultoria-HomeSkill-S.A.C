@@ -1,12 +1,6 @@
 const inputs = document.querySelectorAll(".form__input");
 const formSelects = document.querySelectorAll(".form__select");
 
-window.addEventListener("load", () => {
-    const quantity = document.getElementById("total-quantity").innerText.split(" artículos")[0];
-    document.getElementById("total-delivery").innerText = `$${parseInt(quantity) * 10}`;
-    document.getElementById("total-to-pay").innerText = `$${(parseInt(quantity) * 10) + parseFloat(document.getElementById("total-price-all").innerText.split("$")[1])}`;
-});
-
 const validations = {
     name: /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/,
     dni: /^\d{8}$/
