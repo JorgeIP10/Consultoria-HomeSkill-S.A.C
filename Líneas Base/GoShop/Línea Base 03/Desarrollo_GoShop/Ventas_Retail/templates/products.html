@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" type="text/css" href="{% static 'css/products.css' %}">{% endblock %}
+{% block title %}{{name}}{% endblock %}
+
+{% block content %}
+<section class="site-main__section">
+    <div class="breadcumb">
+        <div class="breadcumb-div"><a href="{% url 'shop' %}">GoShop</a></div>
+        <div class="breadcumb-div breadcumb-div-next">
+            <a href="{% url view %}"><b>{{name}}</b></a>
+        </div>
+    </div>
+    <div class="products-container">
+        {% for article in products %}
+        <div class="product">
+            <div class="product__img-container">
+                {% if article.on_sale %}
+                <span class="text-on_sale"><b>En oferta</b></span>
+                {% endif %}
+                <img src="{{article.image.url}}">
+            </div>
+            <div class="product__info">
+                <div class="product__info-text">
+                    <h3 class="product__name">{{article.name}}</h3>
+                    <div class="product__details">
+                        {% if article.on_sale %}
+                        <p><b>Precio: <s>${{article.price}}</s> ${{article.sale_price}}</b></p>
+                        {% else %}
+                        <p><b>Precio: ${{article.price}}</b></p>
+                        {% endif %}
+                        <p id="stock-article-{{article.id}}"><b>Stock disponible: {{article.stock}}</b></p>
+                    </div>
+                </div>
+                <form method="post" class="form">
+                    {% csrf_token %}
+                    <input class="form__input" name="product_id" id="product-id-{{article.id}}" value="{{article.id}}" hidden>
+                    <div class="product__purchase">
+                        <button class="product__purchase-button" name="see-description" id="button-article-{{article.id}}">Ver más</button>
+                        <b><span class="form__span" id="{{article.id}}"></span></b>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

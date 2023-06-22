@@ -1,0 +1,143 @@
+.site-main__section{
+    display: flex;
+    flex-direction: column;
+}
+
+.site-main__div {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 30px;
+}
+
+.site-main__info {
+    display: grid;
+    gap: 30px;
+    border: 2px solid #828080;
+    padding: 30px;
+    height: fit-content;
+}
+
+.div-container {
+    display: grid;
+    grid-template-columns: repeat(2, 170px);
+    gap: 20px;
+}
+
+.div-info {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    gap: 5px;
+}
+
+.edit-button {
+    outline: none;
+    border: none;
+    background-color: #004aad;
+    padding: 8px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.edit-button:hover {
+    background-color: #00ab66;
+}
+
+.site-main__edit-info {
+    display: none;
+    width: 100%;
+    gap: 20px;
+}
+
+.form-edit-container {
+    display: none;
+    gap: 20px;
+    border: 2px solid #828080;
+    padding: 20px;
+}
+
+.edit-titles {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-titles h2{
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.fields-container {
+    display: grid;
+    gap: 5px;
+}
+
+.div__input {
+    outline: none;
+    border: none;
+    background-color: #f3f3f3;
+    border: 1px solid #828080;
+    padding: 5px;
+}
+
+.button-confirm-changes {
+    outline: none;
+    border: none;
+    background-color: #004aad;
+    padding: 8px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.button-confirm-changes:hover {
+    background-color: #00ab66;
+}
+
+.div__input-error{
+    border: 2px solid #f00;
+}
+
+.div__input-error-match{
+    border: 2px solid #a00;
+}
+
+.div__span-warning{
+    display: none;
+    font-weight: bold;
+    color: #a00;
+}
+
+.div__span-warning-auth {
+    display: flex;
+}
+
+@media screen and (max-width:960px) {
+    .site-main__section{
+        grid-template-columns: 1fr;
+        margin-top: 20px;
+    }
+
+    .div-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .site-main__div {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, max-content);
+    }
+}
+
+@media screen and (max-width: 890px){
+    .site-main__section{
+        /* flex-direction: column;
+        padding: 20px; */
+        margin-top: 20px;
+    }
+
+    .site-main__menu{
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    body {
+        min-width: 900px;
+    }
+}

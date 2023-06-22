@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" type="text/css" href="{% static 'css/shopping_history.css' %}">{% endblock %}
+{% block title %}Historial{% endblock %}
+
+{% block content %}
+<section class="site-main__section">
+    <div class="breadcumb">
+        <div class="breadcumb-div"><a href="{% url 'shop' %}">GoShop</a></div>
+        <div class="breadcumb-div breadcumb-div-next">
+            <a href="{% url 'profile' %}"><b>Perfil</b></a>
+        </div>
+        <div class="breadcumb-div breadcumb-div-next">
+            <a href="{% url 'history' %}"><b>Tu historial de compras</b></a>
+        </div>
+    </div>
+    <div class="site-main__section__div">
+        <!-- <iframe src="" width="100%" height="600px" type="application/pdf"></iframe> -->
+        <iframe src="data:application/pdf;base64,{{ pdf }}" type="application/pdf" width="100%" height="600px"></iframe>
+    </div>
+</section>
+{% endblock %}
