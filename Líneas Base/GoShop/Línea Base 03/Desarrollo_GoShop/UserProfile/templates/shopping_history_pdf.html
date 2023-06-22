@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de compras</title>
+</head>
+<body>
+    <style>
+        *{
+            font-family: 'Times New Roman';
+        }
+
+        .main-table {
+            font-size: 12px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .table-body {
+            text-align: center;
+        }
+    </style>
+    <h1 style="text-align: center;"><u>Historial de compras</u></h1>
+    <table class="main-table" style="padding: 3px 3px 0px 3px;" border="0.1px">
+        <thead class="main-table__thead">
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Importe total</th>
+            <th>Fecha de compra</th>
+        </thead>
+        <tbody class="table-body">
+            {% for article in products %}
+                <tr>
+                    <td>{{article.name}}</td>
+                    {% if article.sale_price %}
+                    <td>${{article.sale_price}}</td>
+                    {% else %}
+                    <td>${{article.price}}</td>
+                    {% endif %}
+                    <td>{{article.quantity}}</td>
+                    <td>${{article.total_price}}</td>
+                    {% if article.purchased %}
+                    <td rowspan="{{article.rows_quantity}}" align="center">{{article.purchase_time}}</td>
+                    {% endif %}
+                </tr>
+                {% if article.new_row %}
+                <tr>
+                    <td>Total de la compra</td>
+                    <td colspan="4" align="center">${{article.cart_amount}}</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td>Monto total acumulado</td>
+                <td colspan="4" align="center">${{total_amount}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <footer class="footer">
+        <div>
+            <h3 style="text-align: center;">© 2023 - GoShop</h3>
+        </div>
+    </footer>
+</body>
+</html>

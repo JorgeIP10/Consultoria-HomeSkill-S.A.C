@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" type="text/css" href="{% static 'css/user_profile.css' %}">{% endblock %}
+{% block title %}Bienvenido, {{request.user.username}}{% endblock %}
+
+{% block content %}
+<section class="site-main__section">
+    <div class="breadcumb">
+        <div class="breadcumb-div"><a href="{% url 'shop' %}">GoShop</a></div>
+        <div class="breadcumb-div breadcumb-div-next">
+            <a href="{% url 'profile' %}"><b>Perfil</b></a>
+        </div>
+    </div>
+    <div class="site-main__section__div">
+        <h2 class="title">Tu cuenta</h2>
+        <div class="div-user">
+            <a href="{% url 'config' %}" class="container">
+                <div class="icon-container">
+                    <i class="fa-solid fa-user icon"></i>
+                </div>
+                <div class="personal_information">
+                    <h3>Tus datos</h3>
+                    <p>Edita tu nombre de usuario.</p>
+                </div>
+            </a>
+            <a href="{% url 'history' %}" class="container">
+                <div class="icon-container">
+                    <i class="fa-sharp fa-solid fa-file-invoice-dollar"></i>
+                    <!-- <i class="fa-sharp fa-solid fa-file-invoice-dollar fa-fade"></i> -->
+                </div>
+                <div class="purchases">
+                    <h3>Tu historial</h3>
+                    <p>Supervisa tus compras.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
