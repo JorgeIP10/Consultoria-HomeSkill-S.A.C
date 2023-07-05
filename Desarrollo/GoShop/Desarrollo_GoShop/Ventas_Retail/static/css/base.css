@@ -5,13 +5,13 @@
 }
 
 header{
-	background-color: #cca;
+	background-color: #a4d3d2;
 }
 
 body{
 	display: flex;
 	flex-direction: column;
-	background-color: #dddcdc;
+	background-color: #cddae3;
 }
 
 .div-mobile{
@@ -86,7 +86,6 @@ body{
 .header-form__input {
     border: none;
     outline: none;
-    /* padding-right: 10px; */
     padding: 10px;
     border-radius: 10px;
     width: 100%;
@@ -97,7 +96,7 @@ body{
 	position: fixed;
 	width: 100%;
 	justify-content: end;
-	background-color: #cca;
+	background-color: #a4d3d2;
 	padding: 10px;
 	z-index: 2;
 }
@@ -109,7 +108,7 @@ body{
 	width: 30%;
 	right: -30%;
 	z-index: 2;
-	background-color: #cca;
+	background-color: #a4d3d2;
 	transition: all 500ms;
 }
 
@@ -222,7 +221,6 @@ body{
 	flex-direction: column;
 	justify-content: center;
 	max-width: 1500px;
-	/* padding: 20px; */
 	width: 100%;
 }
 
@@ -281,7 +279,7 @@ body{
 }
 
 footer{
-	background-color: #cca;
+	background-color: #a4d3d2;
 }
 
 .footer__div{
