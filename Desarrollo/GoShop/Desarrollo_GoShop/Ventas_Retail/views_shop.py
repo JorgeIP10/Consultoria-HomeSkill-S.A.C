@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Product
 from django.http import JsonResponse
+from django.db import models
 
 def shop(request):
     if request.method == 'GET':
@@ -25,7 +26,9 @@ def shop(request):
 def products(request, category_name, name, view_name):
     if request.method == 'GET':
         products = Product.objects.filter(category=category_name)
-        return render(request, 'products.html', {'name': name, 'products': products, 'view': view_name})
+        prices = Product.objects.filter(category=category_name).aggregate(min_price=models.Min('price'), max_price=models.Max('price'))
+        current_prices = prices
+        return render(request, 'products.html', {'name': name, 'products': products, 'view': view_name, 'prices': prices, 'current_prices': current_prices})
     else:
         if 'button-search' in request.POST:
             try:
@@ -33,6 +36,23 @@ def products(request, category_name, name, view_name):
                 return redirect('description', view_name=view_name, product_id=product.id)
             except:
                 return redirect('description',  view_name=view_name, product_id=0)
+        elif 'filter-button' in request.POST:
+            min_current_price = request.POST['min-price']
+            max_current_price = request.POST['max-price']
+            prices = Product.objects.filter(category=category_name).aggregate(min_price=models.Min('price'), max_price=models.Max('price'))
+            products = None
+            
+            if prices['max_price'] - float(max_current_price) <= 1 and prices['min_price'] == float(min_current_price):
+                max_current_price = prices['max_price']
+                products = Product.objects.filter(category=category_name)
+            else:
+                if prices['max_price'] - float(max_current_price) <= 1:
+                    products = Product.objects.filter(category=category_name, price__gte=min_current_price, price__lte=prices['max_price'])
+                else:
+                    products = Product.objects.filter(category=category_name, price__gte=min_current_price, price__lte=max_current_price)
+            
+            current_prices = {'min_price': min_current_price, 'max_price': max_current_price}
+            return render(request, 'products.html', {'name': name, 'products': products, 'view': view_name, 'prices': prices, 'current_prices': current_prices})
         elif 'see-description' in request.POST:
             try:
                 product = Product.objects.get(id=request.POST['product_id'])
@@ -55,7 +75,9 @@ def decor(request):
 def offers(request):
     if request.method == 'GET':
         products = Product.objects.filter(on_sale=True)
-        return render(request, 'products.html', {'name': 'Ofertas', 'products': products, 'view': 'offers'})
+        prices = Product.objects.filter(on_sale=True).aggregate(min_price=models.Min('sale_price'), max_price=models.Max('sale_price'))
+        current_prices = prices
+        return render(request, 'products.html', {'name': 'Ofertas', 'products': products, 'view': 'offers', 'prices': prices, 'current_prices': current_prices})
     else:
         names = {'Kitchen':'kitchen', 'Bathroom':'bathroom', 'Bedroom':'bedroom','Decor':'decor'}
         if 'button-search' in request.POST:
@@ -64,7 +86,23 @@ def offers(request):
                 return redirect('description', view_name=names[product.category_id], product_id=product.id)
             except:
                 return redirect('description', view_name='offers', product_id=0)
+        elif 'filter-button' in request.POST:
+            min_current_price = request.POST['min-price']
+            max_current_price = request.POST['max-price']
+            prices = Product.objects.filter(on_sale=True).aggregate(min_price=models.Min('sale_price'), max_price=models.Max('sale_price'))
+            products = None
             
+            if prices['max_price'] - float(max_current_price) <= 1:
+                max_current_price = prices['max_price']
+                products = Product.objects.filter(on_sale=True)
+            else:
+                if prices['max_price'] - float(max_current_price) <= 1:
+                    products = Product.objects.filter(on_sale=True, price__gte=min_current_price, price__lte=prices['max_price'])
+                else:
+                    products = Product.objects.filter(on_sale=True, price__gte=min_current_price, price__lte=max_current_price)
+            
+            current_prices = {'min_price': min_current_price, 'max_price': max_current_price}
+            return render(request, 'products.html', {'name': 'Ofertas', 'products': products, 'view': 'offers', 'prices': prices, 'current_prices': current_prices})
         elif 'see-description' in request.POST:
             try:
                 product = Product.objects.get(id=request.POST['product_id'])

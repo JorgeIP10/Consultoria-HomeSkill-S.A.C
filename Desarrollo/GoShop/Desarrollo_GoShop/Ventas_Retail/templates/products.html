@@ -11,6 +11,26 @@
             <a href="{% url view %}"><b>{{name}}</b></a>
         </div>
     </div>
+    <form class="filter-form" method="post" id="filter-form">
+        {% csrf_token %}
+            <div class="filter-form__div container-min-price">
+                <label class="label-min-price" for="min-price"><b>Precio mínimo</b></label>
+                <hr>
+                <div class="div-min">
+                    <input type="range" name="min-price" id="min-price" min="{{prices.min_price}}" max="{{prices.max_price}}" step="1" value="{{current_prices.min_price}}">
+                    <b><span id="min-price-value">${{current_prices.min_price}}</span></b>
+                </div>
+            </div>
+            <div class="filter-form__div container-max-price">
+                <label for="max-price"><b>Precio máximo</b></label>
+                <hr>
+                <div class="div-max">
+                    <input type="range" name="max-price" id="max-price" min="{{prices.min_price}}" max="{{prices.max_price}}" step="1" value="{{current_prices.max_price}}">
+                    <b><span id="max-price-value">${{current_prices.max_price}}</span></b>
+                </div>
+            </div>
+            <button class="filter-form__button" name="filter-button" id="filter-button">Filtrar</button>
+    </form>
     <div class="products-container">
         {% for article in products %}
         <div class="product">
@@ -45,4 +65,5 @@
         {% endfor %}
     </div>
 </section>
+<script src="{% static 'js/filter_products.js' %}"></script>
 {% endblock %}

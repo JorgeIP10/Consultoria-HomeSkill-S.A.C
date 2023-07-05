@@ -127,8 +127,6 @@
 
 @media screen and (max-width: 890px){
     .site-main__section{
-        /* flex-direction: column;
-        padding: 20px; */
         margin-top: 20px;
     }
 
